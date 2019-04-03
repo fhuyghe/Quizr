@@ -14,15 +14,20 @@
   "license": "ISC",
   "dependencies": {
     "@shopify/koa-shopify-auth": "^3.1.13",
+    "@shopify/koa-shopify-graphql-proxy": "^2.1.5",
     "@shopify/polaris": "^3.5.0",
     "@zeit/next-css": "^1.0.1",
+    "apollo-boost": "^0.3.1",
     "dotenv": "^6.2.0",
+    "graphql": "^14.2.1",
     "isomorphic-fetch": "^2.2.1",
     "js-cookie": "^2.2.0",
     "koa": "^2.7.0",
     "koa-session": "^5.10.1",
     "next": "^7.0.2",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-apollo": "^2.5.3",
+    "react-dom": "^16.7.0",
+    "store-js": "^2.0.4"
   }
 }
