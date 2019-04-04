@@ -24,6 +24,7 @@
     "js-cookie": "^2.2.0",
     "koa": "^2.7.0",
     "koa-session": "^5.10.1",
+    "mongoose": "^5.4.22",
     "next": "^7.0.2",
     "node-fetch": "^2.3.0",
     "react": "^16.7.0",

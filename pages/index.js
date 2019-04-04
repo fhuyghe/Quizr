@@ -2,17 +2,12 @@ import { Layout,
     Card, 
     FormLayout, 
     Checkbox,
-    Button, 
     Page, 
     TextField, 
-    Stack,
-    RadioButton, 
     Toast } from '@shopify/polaris';
 import Link from 'next/link'
 //To store locally for now
 import store from 'store-js';
-import OptionsList from '../components/OptionsList'
-import OptionsAdd from '../components/OptionsAdd'
 
 
 class Index extends React.Component {
@@ -67,38 +62,9 @@ class Index extends React.Component {
                     label="Collect emails at the end of the quiz"
                     onChange={this.handleCollectEmailChange}
                 />
-                <Stack vertical>
-                    <RadioButton
-                        label="Result as options"
-                        helpText="Create a set of options for the quiz to choose from."
-                        id="options"
-                        name="results"
-                        checked={resultsValue === 'options'}
-                        onChange={this.handleResultsChange}
-                    />
-                    <RadioButton
-                        label="Result as tag filter"
-                        helpText="The quiz will return a set of products matching the filters."
-                        checked={resultsValue === 'filters'}
-                        id="filters"
-                        name="results"
-                        onChange={this.handleResultsChange}
-                    />
-                </Stack>
             </FormLayout>
             </Card>
         </Layout.AnnotatedSection>
-
-
-        { resultsValue == 'options' ? 
-        <Layout.AnnotatedSection
-            title="Options"
-            description="Create options to show as the result of the quiz."
-        >
-            <Link href="/options?slug=new" as="/options/new"><Button>Add new</Button></Link>
-            <OptionsList />
-        </Layout.AnnotatedSection>
-        : null }
 
         <Layout.AnnotatedSection
             title="Intro"
