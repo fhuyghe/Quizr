@@ -3,14 +3,16 @@ import { Layout,
     FormLayout, 
     Checkbox,
     Page, 
-    TextField, 
-    Toast } from '@shopify/polaris';
-import Link from 'next/link'
+    TextField
+    } from '@shopify/polaris';
+require('isomorphic-fetch');
+
 //To store locally for now
 import store from 'store-js';
 
 
 class Index extends React.Component {
+
     state = { 
         resultsValue: 'options',
         collectEmailChecked: true,
@@ -22,26 +24,28 @@ class Index extends React.Component {
         showToast: false,
     };
 
+    componentWillMount(){
+        const settings = this.props.settings
+
+        this.setState({
+            resultsTitle: settings.resultsTitle,
+            resultsParagraph: settings.resultsParagraph,
+            resultsTextAfter: settings.resultsTextAfter,
+            introTitle: settings.introTitle,
+            introParagraph: settings.introParagraph,
+        })
+    }
+
     render() {
 
         const {
-            resultsValue, 
             collectEmailChecked,
             resultsTitle,
             resultsParagraph,
             resultsTextAfter,
             introTitle,
-            introParagraph,
-            showToast
+            introParagraph
         } = this.state;
-
-        const toastMarkup = showToast ? (
-                <Toast 
-                    content="Saved!" 
-                    onDismiss={this.toggleSaveToast} 
-                    duration={4500}
-                />
-          ) : null;
 
     return (
     <Page
@@ -108,7 +112,6 @@ class Index extends React.Component {
             </FormLayout>
             </Card>
         </Layout.AnnotatedSection>
-        {toastMarkup}
     </Layout>
     </Page>
   )};
@@ -120,24 +123,27 @@ class Index extends React.Component {
     };
 
     save = () => {
-        store.set('settings', this.state);
-        console.log('saved', this.state)
-        this.toggleSaveToast();
-    }
+        const dataToSave =  this.state
+        dataToSave._id = this.props.settings._id ? this.props.settings._id : null
 
-    toggleSaveToast = () => {
-        this.setState(({showToast}) => ({showToast: !showToast}));
-    };
+        fetch('/api/settings', {
+            method: 'POST',
+            body: JSON.stringify(dataToSave),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    }
 
     handleCollectEmailChange = (value) => {
         this.setState({collectEmailChecked: value});
       };
 
-      handleResultsChange = (checked, value) => {
+    handleResultsChange = (checked, value) => {
         this.setState({resultsValue: value});
       };
 
-      handleChange = (field) => {
+    handleChange = (field) => {
         return (value) => this.setState({[field]: value});
       };
 }

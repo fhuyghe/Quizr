@@ -23,13 +23,25 @@ class QuizrApp extends App {
         shopOrigin: Cookies.get('shopOrigin')
     }
 
+    static async getInitialProps({ query, req, ctx }) {
+      const shop = 'savemefrom.myshopify.com'
+      const res = await fetch('https://b63d3ce9.ngrok.io/api/settings/' + shop)
+      const data = await res.json()
+
+      return {
+          settings: data
+      }
+    }
+
   render() {
     const { Component, pageProps } = this.props;
+    console.log(this.props.settings)
 
+    //forceRedirect
     return (
-        <AppProvider shopOrigin={this.state.shopOrigin} apiKey={API_KEY} forceRedirect>
+        <AppProvider shopOrigin={this.state.shopOrigin} apiKey={API_KEY} >
           <ApolloProvider client={client}>
-            <Component {...pageProps} />
+            <Component {...pageProps} settings={this.props.settings}/>
           </ApolloProvider>
         </AppProvider>
     );

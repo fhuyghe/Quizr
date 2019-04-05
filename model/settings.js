@@ -1,7 +1,8 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const {Schema} = mongoose;
 
 const settingsSchema = new Schema({
+    shop: { type: String, unique : true, required : true, dropDups: true},
     introTitle: { type: String },
     introParagraph: { type: String },
     resultsTitle: { type: String },
@@ -9,5 +10,4 @@ const settingsSchema = new Schema({
     resultsTextAfter: { type: String }
 });
 
-export const Settings = mongoose.model('Settings', settingsSchema);
-export default Settings;
+module.exports =  mongoose.model('Settings', settingsSchema);
