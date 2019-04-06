@@ -12,6 +12,9 @@ module.exports = function(router){
     router.get('/api/settings/:shop', SettingsControllers.find);
     router.post('/api/settings', SettingsControllers.add);
 
+    //Result Options
+    router.post('/api/settings/addoption', SettingsControllers.addOption);
+
     return router
 
 }

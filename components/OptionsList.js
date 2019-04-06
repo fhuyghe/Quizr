@@ -1,8 +1,12 @@
 import { ResourceList,
-  Card,
+    Card,
     TextStyle,
-    Avatar } from '@shopify/polaris';
-import store from 'store-js';
+    Avatar,
+    Layout,
+    Page,
+    Heading,
+    TextContainer,
+   } from '@shopify/polaris';
 
 class OptionsList extends React.Component {
 
@@ -24,16 +28,35 @@ class OptionsList extends React.Component {
     }
     
       render() {
-        const options = store.get('options') ? store.get('options') : [];
+        const options = this.props.options
 
         return (
-          <Card>
-            <ResourceList
-                  resourceName={{singular: 'option', plural: 'options'}}
-                  items={options}
-                  renderItem={this.renderItem}
-              />
-          </Card>
+          <Page
+            title="Options"
+            primaryAction={{
+              content: 'Add Option',
+              url: '/options/new'
+            }}
+          >
+          <Layout>
+            <Layout.Section>
+              <TextContainer>
+                <Heading>Result Options</Heading>
+                <p>Choose what options the users will be given at the end of the quiz. When creating questions, you will be able to assign points for these options for each possible answer.</p>
+              </TextContainer>
+            </Layout.Section>
+
+            <Layout.Section>
+              <Card>
+                <ResourceList
+                      resourceName={{singular: 'option', plural: 'options'}}
+                      items={options}
+                      renderItem={this.renderItem}
+                  />
+              </Card>
+            </Layout.Section>
+          </Layout>
+          </Page>
         );
       }
     }

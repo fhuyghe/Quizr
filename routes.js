@@ -4,4 +4,4 @@ const routes = require('next-routes')
 module.exports = routes()                           // ----   ----      -----
 .add('index')                                   // about  about     /about
 .add('questions', '/questions/:slug')   
-.add('options', '/options/:slug')       
+.add('options', '/options/:slug', 'options')       

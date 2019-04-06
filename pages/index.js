@@ -7,9 +7,6 @@ import { Layout,
     } from '@shopify/polaris';
 require('isomorphic-fetch');
 
-//To store locally for now
-import store from 'store-js';
-
 
 class Index extends React.Component {
 
