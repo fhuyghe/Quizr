@@ -1,3 +1,4 @@
+
 import { Layout, 
   Page,
   FormLayout,
@@ -9,14 +10,29 @@ import { Layout,
   Subheading,
   Heading
 } from '@shopify/polaris';
+import ProductDisplay from '../components/productDisplay'
+import {Router} from '../routes'
 
 class Option extends React.Component {
 
   state = {
+    newOption: true,
     resourcePickerOpen: false,
     title: '',
     paragraph: '',
-    product: []
+    product: ''
+  }
+
+  componentDidMount(){
+    const newOption = this.props.query.slug == 'new' ? true : false
+
+    if (!newOption){
+      this.getOptionInfo()
+    }
+
+    this.setState({
+      newOption: newOption
+    })
   }
 
   render() {
@@ -24,19 +40,18 @@ class Option extends React.Component {
     const {
       title,
       paragraph,
-      product
+      newOption
     } = this.state
-
-    const newOption = this.props.slug == 'new' ? true : false
-    
-    const productRender = product && 
-      <Card>
-        <h3>{product.title}</h3>
-      </Card>
 
     return <Page
     breadcrumbs={[{content: 'Options', url: '/options'}]}
     title='Option'
+    pagination={{
+      hasPrevious: true,
+      hasNext: true,
+      previousURL: '',
+      nextURL: ''
+    }}
     >
       <Layout>
           <Layout.Section>
@@ -66,14 +81,14 @@ class Option extends React.Component {
               <Button onClick={this.resourcePickerOpen}>
                 {this.state.product ? 'Change' : 'Select'}
               </Button>
-              {productRender}
+              {this.state.product && <ProductDisplay product={this.state.product} />}
               <ResourcePicker
                   allowMultiple={false}
                   showVariants={false}
                   resourceType="Product"
                   open={this.state.resourcePickerOpen}
                   onSelection={({selection}) => {
-                    this.setState({product: selection[0]});
+                    this.setState({product: selection[0].id});
                     this.setState({resourcePickerOpen: false});
                   }}
                   onCancel={() => this.setState({resourcePickerOpen: false})}
@@ -90,7 +105,7 @@ class Option extends React.Component {
                 secondaryActions={[
                   {
                     content: 'Cancel',
-                    url: '/options'
+                    onAction: () => Router.pushRoute('options', {slug: null})
                   },
                   {
                     content: 'Delete',
@@ -112,6 +127,21 @@ class Option extends React.Component {
     this.setState(({resourcePickerOpen})=>(
       {resourcePickerOpen: !resourcePickerOpen}
     ));
+  }
+
+  getOptionInfo(){
+    const {settings, query} = this.props
+    const option = settings.resultOptions
+     ? settings.resultOptions.find((el) => {
+        return el._id == query.slug
+      })
+      : {}
+
+    if (option) this.setState({
+      title: option.title,
+      paragraph: option.paragraph,
+      product: option.product
+    })
   }
 
   

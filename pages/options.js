@@ -1,20 +1,17 @@
 import OptionsEmptyState from '../components/OptionsEmptyState'
-import Option from '../components/Option'
+import Option from './option'
 import OptionsList from '../components/OptionsList'
 
 class Options extends React.Component {
 
   render() {
-    console.log(this.props.settings.resultOptions)
-    const slug = this.props.query.slug
-    const emptyState = !this.props.settings.resultOptions;
+    
+    const emptyState = !this.props.settings || !this.props.settings.resultOptions;
 
 
     return (
       <div>
-      {slug 
-        ? <Option saveOption={this.saveOption} slug={slug} />
-        : emptyState
+      {emptyState
           ? <OptionsEmptyState />
           : <OptionsList options={this.props.settings.resultOptions} />
         }

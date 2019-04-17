@@ -21,16 +21,8 @@ class Index extends React.Component {
         showToast: false,
     };
 
-    componentWillMount(){
-        const settings = this.props.settings
-
-        this.setState({
-            resultsTitle: settings.resultsTitle,
-            resultsParagraph: settings.resultsParagraph,
-            resultsTextAfter: settings.resultsTextAfter,
-            introTitle: settings.introTitle,
-            introParagraph: settings.introParagraph,
-        })
+    componentWillMount(props){
+        this.setState({...this.props.settings})
     }
 
     render() {
@@ -43,6 +35,8 @@ class Index extends React.Component {
             introTitle,
             introParagraph
         } = this.state;
+
+        console.log(this.state)
 
     return (
     <Page

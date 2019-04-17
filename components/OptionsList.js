@@ -1,3 +1,4 @@
+import {Router} from '../routes'
 import { ResourceList,
     Card,
     TextStyle,
@@ -18,6 +19,7 @@ class OptionsList extends React.Component {
         <ResourceList.Item
           media={media}
           accessibilityLabel={`View details for ${title}`}
+          onClick={() => Router.pushRoute('option', {slug: item._id})}
         >
         <h3>
             <TextStyle variation="strong">{title}</TextStyle>

@@ -1,52 +1,71 @@
 import App from 'next/app';
-import { AppProvider } from '@shopify/polaris';
+import Head from 'next/head';
+import { AppProvider,
+          Loading } from '@shopify/polaris';
 import '@shopify/polaris/styles.css';
 import Cookies from 'js-cookie'
-import ApolloClient from 'apollo-boost';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
 import { ApolloProvider } from 'react-apollo';
 
 global.fetch = require('node-fetch');
 
-/* import fetch from 'node-fetch';
-import { createHttpLink } from 'apollo-link-http';
-const link = createHttpLink({ uri: '/graphql', fetch: fetch });
-*/
-
 const client = new ApolloClient({
-    fetchOptions: {
-    credentials: 'include'
-  }
-}); 
+  link: new createHttpLink({
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/graphql',
+    }
+  }),
+  cache: new InMemoryCache(),
+})
 
 class QuizrApp extends App {
     state = {
-        shopOrigin: Cookies.get('shopOrigin')
+        shopOrigin: Cookies.get('shopOrigin'),
+        loaded: false
     }
 
-    static async getInitialProps({ query, req, ctx }) {
-      const pageProps = {}
-      const shop = 'savemefrom.myshopify.com'
+    static async getInitialProps ({Component, ctx}) {
+      var pageProps = {}
+
+      pageProps.query = ctx.query
+
+      return {pageProps}
+    }
+
+    async componentDidMount(){
+      const shop = this.state.shopOrigin
       const res = await fetch('https://b63d3ce9.ngrok.io/api/settings/' + shop)
       const data = await res.json()
-
-      pageProps.settings = data
-      pageProps.query = {...ctx.query}
-
-      return {
-        pageProps
-      }
+      this.setState({
+        settings: data,
+        loaded: true
+      })
     }
 
   render() {
     const { Component, pageProps } = this.props;
 
-    //forceRedirect
     return (
-        <AppProvider shopOrigin={this.state.shopOrigin} apiKey={API_KEY} >
+      <React.Fragment>
+        <Head>
+          <title>Quizr</title>
+          <meta charSet="utf-8" />
+        </Head>
+        <AppProvider 
+          shopOrigin={this.state.shopOrigin} 
+          apiKey={API_KEY} 
+          forceRedirect >
           <ApolloProvider client={client}>
-            <Component {...pageProps} />
+            { this.state.loaded 
+            ? <Component {...pageProps} settings={this.state.settings} />
+            : <Loading /> 
+            }
           </ApolloProvider>
         </AppProvider>
+        </React.Fragment>
     );
   }
 }

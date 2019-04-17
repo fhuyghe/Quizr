@@ -19,7 +19,7 @@ class SettingsControllers {
 
             if (data._id) {
                 console.log('Updating')
-                const settings = await Settings.update({_id: data._id}, data);
+                const settings = await Settings.updateOne({_id: data._id}, data);
                 ctx.body = settings;
             } else {
                 console.log('New record')

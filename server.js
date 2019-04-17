@@ -22,7 +22,6 @@ mongoose.connect(process.env.MONGODB_URI);
     var db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', function(){
-    console.log('Database connected')
 });
 mongoose.set('useCreateIndex', true);
 
@@ -42,6 +41,7 @@ app.prepare().then(() => {
         apiKey: SHOPIFY_API_KEY,
         secret: SHOPIFY_API_SECRET_KEY,
         scopes: ['read_products'],
+
         async afterAuth(ctx) {
             const { shop, accessToken } = ctx.session;
             ctx.cookies.set('shopOrigin', shop, { httpOnly: false })
@@ -61,8 +61,8 @@ app.prepare().then(() => {
                 body: stringifiedBillingParams,
                 credentials: 'include',
                 headers: {
-                'X-Shopify-Access-Token': accessToken,
-                'Content-Type': 'application/json',
+                    'X-Shopify-Access-Token': accessToken,
+                    'Content-Type': 'application/json',
                 },
                 };
 
