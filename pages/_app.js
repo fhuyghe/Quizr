@@ -36,7 +36,7 @@ class QuizrApp extends App {
 
     async componentDidMount(){
       const shop = this.state.shopOrigin
-      const res = await fetch('https://b63d3ce9.ngrok.io/api/settings/' + shop)
+      const res = await fetch('https://quizr.herokuapp.com/api/settings/' + shop)
       const data = await res.json()
       this.setState({
         settings: data,
