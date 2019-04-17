@@ -14,7 +14,7 @@ class OptionsEmptyState extends React.Component {
             heading="Add result options"
             action={{
               content: 'Add option',
-              onAction: () => Router.pushRoute('options', {slug: 'new'})
+              onAction: () => Router.pushRoute('option', {slug: 'new'})
             }}
             image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
           >

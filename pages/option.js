@@ -132,16 +132,12 @@ class Option extends React.Component {
   getOptionInfo(){
     const {settings, query} = this.props
     const option = settings.resultOptions
-     ? settings.resultOptions.find((el) => {
-        return el._id == query.slug
-      })
-      : {}
-
-    if (option) this.setState({
-      title: option.title,
-      paragraph: option.paragraph,
-      product: option.product
-    })
+      ? settings.resultOptions.find((el) => {
+          return el._id == query.slug
+        })
+      : {} 
+      
+    if (option) this.setState({...option})
   }
 
   

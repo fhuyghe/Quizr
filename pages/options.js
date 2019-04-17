@@ -1,5 +1,4 @@
 import OptionsEmptyState from '../components/OptionsEmptyState'
-import Option from './option'
 import OptionsList from '../components/OptionsList'
 
 class Options extends React.Component {

@@ -9,17 +9,15 @@ import { ResourceList,
     TextContainer,
    } from '@shopify/polaris';
 
-class OptionsList extends React.Component {
+class QuestionsList extends React.Component {
 
   renderItem = (item) => {
-    const {title, paragraph, product} = item;
-    const media = <Avatar customer size="medium" name={title} />;
+    const {title, paragraph} = item;
 
     return (
         <ResourceList.Item
-          media={media}
           accessibilityLabel={`View details for ${title}`}
-          onClick={() => Router.pushRoute('option', {slug: item._id})}
+          onClick={() => Router.pushRoute('question', {slug: item._id})}
         >
         <h3>
             <TextStyle variation="strong">{title}</TextStyle>
@@ -30,29 +28,29 @@ class OptionsList extends React.Component {
     }
     
       render() {
-        const options = this.props.options
+        const questions = this.props.questions
 
         return (
           <Page
-            title="Options"
+            title="questions"
             primaryAction={{
-              content: 'Add Option',
-              onAction: () => Router.pushRoute('options', {slug: 'new'})
+              content: 'Add question',
+              onAction: () => Router.pushRoute('questions', {slug: 'new'})
             }}
           >
           <Layout>
             <Layout.Section>
               <TextContainer>
-                <Heading>Result Options</Heading>
-                <p>Choose what options the users will be given at the end of the quiz. When creating questions, you will be able to assign points for these options for each possible answer.</p>
+                <Heading>Questions</Heading>
+                <p>Choose what questions the users will be asked.</p>
               </TextContainer>
             </Layout.Section>
 
             <Layout.Section>
               <Card>
                 <ResourceList
-                      resourceName={{singular: 'option', plural: 'options'}}
-                      items={options}
+                      resourceName={{singular: 'question', plural: 'questions'}}
+                      items={questions}
                       renderItem={this.renderItem}
                   />
               </Card>
@@ -63,4 +61,4 @@ class OptionsList extends React.Component {
       }
     }
     
-export default OptionsList;
+export default QuestionsList;

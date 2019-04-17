@@ -29,7 +29,6 @@ class QuizrApp extends App {
 
     static async getInitialProps ({Component, ctx}) {
       var pageProps = {}
-
       pageProps.query = ctx.query
 
       return {pageProps}

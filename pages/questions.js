@@ -1,44 +1,34 @@
-import {Page,  EmptyState, ResourceList, ResourcePicker } from '@shopify/polaris';
-import store from 'store-js';
-
-import ResourceListWithProducts from '../components/ResourceList';
+import QuestionsEmptyState from '../components/QuestionsEmptyState'
+import QuestionsList from '../components/QuestionsList'
 
 class Questions extends React.Component {
-  state = {
-    open: false
-  };
 
   render() {
-    const emptyState = !store.get('questions');
+    console.log(this.props)
+    const emptyState = !this.props.settings || this.props.settings.questions.length < 1
 
     return (
-      <Page title="Result Options" >
-      {emptyState ? 
-        <EmptyState
-          heading="Add questions to your quiz"
-          action={{content: 'Add question'}}
-          image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
-        >
-          <p>Add as many as 10 questions to your quiz.</p>
-        </EmptyState>
-        :
-        <ResourceList>
-          Questions
-        </ResourceList>
+      <div>
+      {emptyState
+          ? <QuestionsEmptyState />
+          : <QuestionsList questions={this.props.settings.questions} />
         }
-
-
-    <ResourcePicker
-        resourceType="Product"
-        showVariants={false}
-        open={this.state.open}
-        onSelection={(resources) => this.handleSelection(resources)}
-        onCancel={() => this.setState({ open: false })}
-    />
-    <ResourceListWithProducts />
-      </Page>
+      </div>
     )
     };
+
+    saveQuestion = (question) => {
+      const dataToSave =  {question: question}
+      dataToSave.settings = this.props.settings
+  
+      fetch('/api/settings/addquestion', {
+          method: 'POST',
+          body: JSON.stringify(dataToSave),
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      });
+  }
 }
 
 export default Questions;

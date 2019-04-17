@@ -36,8 +36,6 @@ class Index extends React.Component {
             introParagraph
         } = this.state;
 
-        console.log(this.state)
-
     return (
     <Page
         title="Settings"
