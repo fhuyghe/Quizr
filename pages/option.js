@@ -99,8 +99,8 @@ class Option extends React.Component {
             <Layout.Section>
               <PageActions
                 primaryAction={{
-                  content: 'Save',
-                  onAction: () => this.props.saveOption(this.state),
+                  content: this.state._id ? 'Update' : 'Save',
+                  onAction: () => this.saveOption(this.state),
                 }}
                 secondaryActions={[
                   {
@@ -140,8 +140,30 @@ class Option extends React.Component {
     if (option) this.setState({...option})
   }
 
-  
+  saveOption = (option) => {
+    const dataToSave =  {option: option}
+    dataToSave.option.slug = slugify(option.title)
+    dataToSave.option.product = option.product ? option.product.id : null
+    dataToSave.settings = this.props.settings
 
+    fetch('/api/settings/addoption', {
+        method: 'POST',
+        body: JSON.stringify(dataToSave),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+}
+}
+
+function slugify(text)
+{
+  return text.toString().toLowerCase()
+    .replace(/\s+/g, '-')           // Replace spaces with -
+    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+    .replace(/^-+/, '')             // Trim - from start of text
+    .replace(/-+$/, '');            // Trim - from end of text
 }
 
 export default Option;

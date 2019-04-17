@@ -15,12 +15,13 @@ const settingsSchema = new Schema({
 //Result Options
 const resultOptionSchema = Schema({
     title: String,
+    slug: String,
     paragraph: String,
     product: String
   });
 
 // Questions
-const questionSchema = Schema({
+const questionSchema = Schema({ 
     question: String,
     answers: [{
         text: String,

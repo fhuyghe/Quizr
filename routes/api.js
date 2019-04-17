@@ -15,6 +15,9 @@ module.exports = function(router){
     //Result Options
     router.post('/api/settings/addoption', SettingsControllers.addOption);
 
+    //Questions
+    router.post('/api/settings/addquestion', SettingsControllers.addQuestion);
+
     return router
 
 }

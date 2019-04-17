@@ -17,18 +17,6 @@ class Questions extends React.Component {
     )
     };
 
-    saveQuestion = (question) => {
-      const dataToSave =  {question: question}
-      dataToSave.settings = this.props.settings
-  
-      fetch('/api/settings/addquestion', {
-          method: 'POST',
-          body: JSON.stringify(dataToSave),
-          headers: {
-              'Content-Type': 'application/json'
-          }
-      });
-  }
 }
 
 export default Questions;

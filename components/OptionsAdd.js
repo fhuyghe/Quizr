@@ -1,7 +1,6 @@
 import { Card,
     FormLayout,
     TextField } from '@shopify/polaris';
-import store from 'store-js';
 
 class OptionsList extends React.Component {
   state = {

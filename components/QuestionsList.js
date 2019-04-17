@@ -12,15 +12,15 @@ import { ResourceList,
 class QuestionsList extends React.Component {
 
   renderItem = (item) => {
-    const {title, paragraph} = item;
+    const {question, paragraph} = item;
 
     return (
         <ResourceList.Item
-          accessibilityLabel={`View details for ${title}`}
+          accessibilityLabel={`View details for ${question}`}
           onClick={() => Router.pushRoute('question', {slug: item._id})}
         >
         <h3>
-            <TextStyle variation="strong">{title}</TextStyle>
+            <TextStyle variation="strong">{question}</TextStyle>
         </h3>
         <div>{paragraph}</div>
         </ResourceList.Item>

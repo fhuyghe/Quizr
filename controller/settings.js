@@ -1,4 +1,4 @@
-const {Settings, ResultOption} = require('../model/settings')
+const {Settings, ResultOption, Question} = require('../model/settings')
 
 class SettingsControllers {
 
@@ -55,6 +55,36 @@ class SettingsControllers {
                     }
                 });
                 ctx.body = resultOption;
+            }
+        } catch (err) {
+          ctx.throw(422);
+        }
+    }
+
+    //Add result option
+    async addQuestion(ctx) {
+
+        try {
+            const data = ctx.request.body;
+            const question = data.question
+
+            if (question._id) {
+                console.log('Updating question')
+                const newQuestion = await Question.update({_id: option._id}, option);
+                ctx.body = newQuestion;
+            } else {
+                console.log('New question')
+                const newQuestion = await new Question(question).save(function(err, doc){
+                    console.log(doc, data.settings)
+                    if (!err){
+                        Settings.findOne({ _id: data.settings._id }, function (err, settings) {
+                            console.log('Found the settings');
+                            settings.questions.push(doc)
+                            settings.save()
+                        });
+                    }
+                });
+                ctx.body = newQuestion;
             }
         } catch (err) {
           ctx.throw(422);
