@@ -35,7 +35,7 @@ class QuizrApp extends App {
     }
 
     async componentDidMount(){
-      console.log(this.state)
+      console.log(this.state, this.props)
       const shop = this.state.shopOrigin
       if (shop){
         const res = await fetch('https://quizr.13milliseconds.com/api/settings/' + shop) //Needs to be updated
