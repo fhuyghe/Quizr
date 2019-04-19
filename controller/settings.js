@@ -4,6 +4,7 @@ class SettingsControllers {
 
     //GET the settings
     async find(ctx) {
+        console.log('Getting Settings');
         const {shop} = ctx.params
         const data = await Settings
             .findOne({ shop: shop })
