@@ -73,10 +73,9 @@ app.prepare().then(() => {
         },
             }),
     );
-
-    require('./routes/api')(router);
         
     server.use(graphQLProxy());
+    require('./routes/api')(router);
     server.use(router.routes());
     server.use(verifyRequest());
 
