@@ -10,6 +10,7 @@ class SettingsControllers {
             .populate('resultOptions')
             .populate('questions')
         ctx.body = await data ? data : {shop: shop}
+        return next();
     }
 
     //POST settings

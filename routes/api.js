@@ -3,8 +3,6 @@ const ProcessPayment = require('../controller/processPayment');
 
 module.exports = function(router){
 
-    const api = 'settings';
-
     router.get('/', ProcessPayment)
 
     //router.prefix(`/api/${api}`);
