@@ -34,8 +34,6 @@ app.prepare().then(() => {
     server.use(session(server));
     server.keys = [SHOPIFY_API_SECRET_KEY];
 
-    require('./routes/api')(router);
-
     server.use(
         createShopifyAuth({
         apiKey: SHOPIFY_API_KEY,
@@ -75,6 +73,8 @@ app.prepare().then(() => {
         },
             }),
     );
+
+    require('./routes/api')(router);
         
     server.use(graphQLProxy());
     server.use(router.routes());
