@@ -11,7 +11,6 @@ class SettingsControllers {
             .populate('resultOptions')
             .populate('questions')
         ctx.body = await data ? data : {shop: shop}
-        return next();
     }
 
     //POST settings
@@ -77,7 +76,6 @@ class SettingsControllers {
             } else {
                 console.log('New question')
                 const newQuestion = await new Question(question).save(function(err, doc){
-                    console.log(doc, data.settings)
                     if (!err){
                         Settings.findOne({ _id: data.settings._id }, function (err, settings) {
                             console.log('Found the settings');
@@ -87,6 +85,7 @@ class SettingsControllers {
                     }
                 });
                 ctx.body = newQuestion;
+                return newQuestion;
             }
         } catch (err) {
           ctx.throw(422);

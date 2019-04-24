@@ -1,13 +1,15 @@
 import App from 'next/app';
 import Head from 'next/head';
-import { AppProvider,
-          Loading } from '@shopify/polaris';
+import { AppProvider } from '@shopify/polaris';
 import '@shopify/polaris/styles.css';
 import Cookies from 'js-cookie'
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { ApolloProvider } from 'react-apollo';
+//Redux
+import { Provider } from 'react-redux'
+import withReduxStore from '../lib/with-redux-store'
 
 global.fetch = require('node-fetch');
 
@@ -27,29 +29,8 @@ class QuizrApp extends App {
         loaded: false
     }
 
-    static async getInitialProps ({Component, ctx}) {
-      var pageProps = {}
-      pageProps.query = ctx.query
-
-      return {pageProps}
-    }
-
-    async componentDidMount(){
-      const shop = this.state.shopOrigin ? this.state.shopOrigin : this.props.router.query.shop
-      if (shop){
-        const res = await fetch('/api/settings/' + shop) //Needs to be updated
-        const data = await res.json()
-
-      
-        this.setState({
-          settings: data,
-          loaded: true
-        })
-      }
-    }
-
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, reduxStore } = this.props;
 
     return (
       <React.Fragment>
@@ -62,10 +43,9 @@ class QuizrApp extends App {
           apiKey={API_KEY} 
           forceRedirect >
           <ApolloProvider client={client}>
-            { this.state.loaded 
-            ? <Component {...pageProps} settings={this.state.settings} />
-            : <Loading /> 
-            }
+            <Provider store={reduxStore}>
+              <Component {...pageProps} />
+            </Provider>
           </ApolloProvider>
         </AppProvider>
         </React.Fragment>
@@ -73,4 +53,4 @@ class QuizrApp extends App {
   }
 }
 
-export default QuizrApp;
+export default withReduxStore(QuizrApp);

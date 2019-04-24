@@ -4,7 +4,6 @@ import QuestionsList from '../components/QuestionsList'
 class Questions extends React.Component {
 
   render() {
-    console.log(this.props)
     const emptyState = !this.props.settings || this.props.settings.questions.length < 1
 
     return (

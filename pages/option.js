@@ -12,6 +12,7 @@ import { Layout,
 } from '@shopify/polaris';
 import ProductDisplay from '../components/productDisplay'
 import {Router} from '../routes'
+import { connect } from 'react-redux'
 
 class Option extends React.Component {
 
@@ -21,6 +22,10 @@ class Option extends React.Component {
     title: '',
     paragraph: '',
     product: ''
+  }
+
+  static async getInitialProps ({query}) {
+    return {query}
   }
 
   componentDidMount(){
@@ -147,7 +152,7 @@ class Option extends React.Component {
     dataToSave.settings = this.props.settings
 
     fetch('/api/settings/addoption', {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(dataToSave),
         headers: {
             'Content-Type': 'application/json'
@@ -166,4 +171,13 @@ function slugify(text)
     .replace(/-+$/, '');            // Trim - from end of text
 }
 
-export default Option;
+//Connect Redux
+const mapStateToProps = (state) => {
+  return {
+      settings: state.settings
+  }
+}
+
+const connectedOption = connect(mapStateToProps)(Option)
+
+export default connectedOption;

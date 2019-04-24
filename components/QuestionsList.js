@@ -35,7 +35,7 @@ class QuestionsList extends React.Component {
             title="questions"
             primaryAction={{
               content: 'Add question',
-              onAction: () => Router.pushRoute('questions', {slug: 'new'})
+              onAction: () => Router.pushRoute('question', {slug: 'new'})
             }}
           >
           <Layout>

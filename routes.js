@@ -7,3 +7,5 @@ module.exports = routes()                           // ----   ----      -----
 .add('question', '/questions/:slug')   
 .add('options', '/options')
 .add('option', '/options/:slug')
+.add('preview', '/preview/:slide')
+.add('quiz/question', '/quiz/question/:number')

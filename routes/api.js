@@ -11,10 +11,10 @@ module.exports = function(router){
     router.post('/api/settings', SettingsControllers.add);
 
     //Result Options
-    router.post('/api/settings/addoption', SettingsControllers.addOption);
+    router.put('/api/settings/addoption', SettingsControllers.addOption);
 
     //Questions
-    router.post('/api/settings/addquestion', SettingsControllers.addQuestion);
+    router.put('/api/settings/addquestion', SettingsControllers.addQuestion);
 
     return router
 

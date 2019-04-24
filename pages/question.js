@@ -1,17 +1,12 @@
-
 import { Layout, 
   Page,
   FormLayout,
   TextField,
-  Autocomplete,
   Card,
   Button,
   PageActions,
   Subheading,
   Heading,
-  Stack, 
-  Tag,
-  TextContainer
 } from '@shopify/polaris';
 import {Router} from '../routes'
 import Answer from '../components/answerForm'
@@ -79,7 +74,6 @@ class Question extends React.Component {
             <Card sectioned>
               <Subheading>Answers</Subheading>
                   {answers.map((answer, index) => {
-                    console.log(answer)
                       return <Answer 
                           {...answer} 
                           options={options} 
@@ -97,7 +91,7 @@ class Question extends React.Component {
               <PageActions
                 primaryAction={{
                   content: this.state._id ? 'Update' : 'Save',
-                  onAction: () => this.saveQuestion(this.state),
+                  onAction: () => this.saveQuestion(),
                 }}
                 secondaryActions={[
                   {
@@ -153,17 +147,24 @@ class Question extends React.Component {
     if (question) this.setState({...question})
   }
 
-  saveQuestion = (question) => {
-    const dataToSave =  {question: question}
+  saveQuestion = () => {
+    const dataToSave =  {question: this.state}
+    dataToSave.question.slug = slugify(this.state.question)
     dataToSave.settings = this.props.settings
 
+    console.log(dataToSave)
+
     fetch('/api/settings/addquestion', {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(dataToSave),
         headers: {
             'Content-Type': 'application/json'
         }
-    });
+    }).then((data)=> {
+      console.log(data.body)
+    }).then((json) => {
+      this.setState({...json})
+    })
 }
 
   
