@@ -38,7 +38,12 @@ export const actionTypes = {
   SAVE_QUESTION: 'SAVE_QUESTION',
   TRY_SAVING_QUESTION: 'TRY_SAVING_QUESTION',
   SUCCESS_SAVING_QUESTION: 'SUCCESS_SAVING_QUESTION',
-  SAVE_ANSWER: 'SAVE_ANSWER'
+  SAVE_OPTION: 'SAVE_OPTION',
+  TRY_SAVING_OPTION: 'TRY_SAVING_OPTION',
+  SUCCESS_SAVING_OPTION: 'SUCCESS_SAVING_OPTION',
+  SAVE_ANSWER: 'SAVE_ANSWER',
+  HIGHER_QUESTION: 'HIGHER_QUESTION',
+  LOWER_QUESTION: 'LOWER_QUESTION'
 }
 
 // REDUCERS
@@ -60,8 +65,24 @@ export const reducer = (state = initialState, action) => {
             newState.settings = action.settings
             return newState
 
+        case actionTypes.SUCCESS_SAVING_QUESTION:
+            newState.settings = action.settings
+            return newState
+
+        case actionTypes.SUCCESS_SAVING_OPTION:
+            newState.settings = action.settings
+            return newState
+
         case actionTypes.SAVE_ANSWER:
             newState.answers = action.answers
+            return newState
+
+        case actionTypes.LOWER_QUESTION:
+            newState.settings = action.settings
+            return newState
+        
+        case actionTypes.HIGHER_QUESTION:
+            newState.settings = action.settings
             return newState
 
         default:
@@ -70,6 +91,10 @@ export const reducer = (state = initialState, action) => {
 }
 
 // ACTIONS
+
+  //#################
+  // GET SETTINGS
+  //#################
 export const requestSettings = (shop) => {
   return { 
         type: actionTypes.GET_SETTINGS,
@@ -102,6 +127,11 @@ export function getSettings(shop) {
         )
     }
   }
+
+  //#################
+  // SAVE SETTINGS
+  //#################
+
 
   export const trySavingSettings = (shop) => {
     return { 
@@ -145,6 +175,10 @@ export function getSettings(shop) {
         )
     }
   }
+
+  //#################
+  // SAVE QUESTION
+  //#################
 
   export const trySavingQuestion = () => {
     return { 
@@ -191,6 +225,104 @@ export function getSettings(shop) {
         )
     }
   }
+
+  //##################
+  // MOVE QUESTIONS
+  //##################
+
+  export const lowerQuestion = (index) => {
+    return function(dispatch, getState) {
+      const {settings} = getState()
+
+      const question1 = settings.questions[index]
+      const question2 = settings.questions[index + 1]
+      let newSettings = Object.assign({}, settings);
+
+      newSettings.questions[index + 1] = question1
+      newSettings.questions[index] = question2
+
+      dispatch(saveSettings(newSettings.shop, newSettings))
+
+      dispatch({ 
+        type: actionTypes.LOWER_QUESTION,
+        settings: newSettings
+      })
+    }
+  }
+
+  export const higherQuestion = (index) => {
+    return function(dispatch, getState) {
+      const {settings} = getState()
+
+      const question1 = settings.questions[index]
+      const question2 = settings.questions[index - 1]
+      let newSettings = Object.assign({}, settings);
+
+      newSettings.questions[index - 1] = question1
+      newSettings.questions[index] = question2
+
+      dispatch(saveSettings(newSettings.shop, newSettings))
+
+      dispatch({ 
+        type: actionTypes.HIGHER_QUESTION,
+        settings: newSettings
+      })
+    }
+  }
+
+  //#################
+  // SAVE RESULT OPTIONS
+  //#################
+
+  export const trySavingOption = () => {
+    return { 
+          type: actionTypes.TRY_SAVING_OPTION,
+          isSaving: true
+      }
+  }
+
+  export const successSavingOption = (data) => {
+    // Save the new option in current settings
+    let newSettings = data.settings
+    let foundIndex = newSettings.resultOptions.findIndex(x => x._id == data.option._id);
+    newSettings.resultOptions[foundIndex] = data.option;
+
+    return { 
+        type: actionTypes.SUCCESS_SAVING_OPTION,
+        settings: newSettings,
+        isSaving: false
+    }
+  }
+
+  export function saveOption(data) {
+    return (dispatch) => {
+  
+      dispatch(trySavingOption())
+
+      let dataToSave = data
+      dataToSave.option.slug = slugify(dataToSave.option.title)
+  
+      return fetch( serverUrl + `/api/settings/saveoption`,
+            {
+              method: 'PUT',
+              body: JSON.stringify(dataToSave),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+            })
+        .then(
+          response => response.json(),
+          // Do not use catch
+          error => console.log('An error occurred.', error)
+        )
+        .then(json => dispatch(successSavingOption(dataToSave))
+        )
+    }
+  }
+
+  //#################
+  // SAVE ANSWERS WHEN PEOPLE TAKE THE QUIZ
+  //#################
 
   export function saveAnswer(answer, questionNum) {
     return (dispatch, getState) => {

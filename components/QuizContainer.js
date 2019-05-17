@@ -6,8 +6,10 @@ class QuizContainer extends React.Component {
 
     return (
       <div className={"quizContainer " + this.props.name}>
-        <div className="wrap">
-          { this.props.children }
+        <div className="gradient">  
+          <div className="wrap">
+            { this.props.children }
+          </div>
         </div>
       </div>
     )

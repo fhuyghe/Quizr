@@ -11,7 +11,6 @@ class Options extends React.Component {
   }
 
   componentWillMount(){
-    console.log(this.props.query.shop)
     this.props.getSettings(this.props.query.shop)
   }
 

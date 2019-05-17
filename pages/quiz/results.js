@@ -46,11 +46,10 @@ class Results extends React.Component{
         return <QuizContainer name="results">
             <header>
                 <h1>{ settings.resultsTitle }</h1>
+                <p>{ settings.resultsParagraph }</p>
             </header>
 
             <div className="content">
-
-                <p>{ settings.resultsParagraph }</p>
                 
                 {this.state.results.map((result) => {
                     const resultOption = settings.resultOptions.find((option) => {
@@ -58,12 +57,10 @@ class Results extends React.Component{
                     })
                     return resultOption && <Result key={resultOption._id} result={resultOption} />
                 })}
-                
-                <p>{ settings.resultsTextAfter }</p>
             </div>
 
             <footer>
-                <a href="https://savemefrom.com" className="btn">Shop Now</a>
+                <p>{ settings.resultsTextAfter }</p>
             </footer>
         </QuizContainer>
     }

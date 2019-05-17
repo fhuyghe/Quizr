@@ -13,6 +13,7 @@ import { Layout,
 import ProductDisplay from '../components/productDisplay'
 import {Router} from '../routes'
 import { connect } from 'react-redux'
+import { saveOption } from '../store'
 
 class Option extends React.Component {
 
@@ -109,7 +110,7 @@ class Option extends React.Component {
                 }}
                 secondaryActions={[
                   {
-                    content: 'Cancel',
+                    content: 'Back',
                     onAction: () => Router.pushRoute('options', {slug: null})
                   },
                   {
@@ -147,28 +148,11 @@ class Option extends React.Component {
 
   saveOption = (option) => {
     const dataToSave =  {option: option}
-    dataToSave.option.slug = slugify(option.title)
-    dataToSave.option.product = option.product ? option.product.id : null
+    dataToSave.option.product = option.product ? option.product : null
     dataToSave.settings = this.props.settings
 
-    fetch('/api/settings/addoption', {
-        method: 'PUT',
-        body: JSON.stringify(dataToSave),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+    this.props.saveOption(dataToSave)
 }
-}
-
-function slugify(text)
-{
-  return text.toString().toLowerCase()
-    .replace(/\s+/g, '-')           // Replace spaces with -
-    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-    .replace(/^-+/, '')             // Trim - from start of text
-    .replace(/-+$/, '');            // Trim - from end of text
 }
 
 //Connect Redux
@@ -178,6 +162,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-const connectedOption = connect(mapStateToProps)(Option)
+const mapDispatchToProps = { saveOption }
+
+const connectedOption = connect(mapStateToProps, mapDispatchToProps)(Option)
 
 export default connectedOption;

@@ -38,8 +38,8 @@ class SettingsControllers {
         }
       }
 
-    //Add result option
-    async addOption(ctx) {
+    //Save result option
+    async saveOption(ctx) {
 
         try {
             const data = ctx.request.body;
@@ -47,7 +47,8 @@ class SettingsControllers {
 
             if (option._id) {
                 console.log('Updating option')
-                const resultOption = await ResultOption.update({_id: option._id}, option);
+                console.log(option)
+                const resultOption = await ResultOption.updateOne({_id: option._id}, option);
                 ctx.body = resultOption;
             } else {
                 console.log('New option')

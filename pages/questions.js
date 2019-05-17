@@ -1,8 +1,9 @@
 import QuestionsEmptyState from '../components/QuestionsEmptyState'
 import QuestionsList from '../components/QuestionsList'
 import { connect } from 'react-redux'
-import { getSettings, saveSettings } from '../store'
+import { getSettings, lowerQuestion, higherQuestion } from '../store'
 import { Loading } from '@shopify/polaris';
+import '../style/adminStyle.scss'
 
 class Questions extends React.Component {
 
@@ -15,16 +16,22 @@ class Questions extends React.Component {
   }
 
   render() {
-    const emptyState = !this.props.settings 
-            || this.props.settings.questions 
-            && this.props.settings.questions.length < 1
+    console.log('Questions page')
+    const {settings} = this.props
+    const emptyState = !settings 
+            || settings.questions 
+            && settings.questions.length < 1
 
     return (
       <div>
       {this.props.isLoaded
         ? emptyState
           ? <QuestionsEmptyState />
-          : <QuestionsList questions={this.props.settings.questions} />
+          : <QuestionsList 
+              questions={settings.questions} 
+              lowerQuestion={this.props.lowerQuestion}
+              higherQuestion={this.props.higherQuestion}
+              />
         : <Loading />
         }
       </div>
@@ -37,11 +44,12 @@ class Questions extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isLoaded: state.isLoaded,
-    settings: state.settings
+    settings: state.settings,
+    questions: state.settings.questions
   }
 }
 
-const mapDispatchToProps = { getSettings, saveSettings }
+const mapDispatchToProps = { getSettings, lowerQuestion, higherQuestion }
 
 const connectedQuestions = connect(mapStateToProps, mapDispatchToProps)(Questions)
 

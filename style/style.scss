@@ -1,8 +1,31 @@
 //Variables
 $black: #000000;
 $white: #ffffff;
+$grey: #ABABAB;
+$lightgrey: #FAFAFA;
 $padding: 100px;
 
+//Fonts
+@font-face {
+    font-family: 'ApercuPro';
+    src: url('/static/fonts/ApercuPro.eot?#iefix') format('embedded-opentype'),  
+        url('/static/fonts/ApercuPro.otf')  format('opentype'),
+        url('/static/fonts/ApercuPro.woff') format('woff'), 
+        url('/static/fonts/ApercuPro.ttf')  format('truetype'), 
+        url('/static/fonts/ApercuPro.svg#ApercuPro') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+@font-face {
+font-family: 'Bodoni';
+src: url('/static/fonts/BodoniSvtyTwoITCTT-Book.eot?#iefix') format('embedded-opentype'), 
+    url('/static/fonts/BodoniSvtyTwoITCTT-Book.ttf')  format('truetype'), 
+    url('/static/fonts/BodoniSvtyTwoITCTT-Book.svg#BodoniSvtyTwoITCTT-Book') format('svg');
+font-weight: normal;
+font-style: normal;
+}
+  
 //Styles
 .quizContainer{
     position: absolute;
@@ -12,17 +35,22 @@ $padding: 100px;
     align-items: center;
     justify-content: center;
     text-align: center;
+    font-family: 'ApercuPro', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
-    .wrap{
+    .gradient{
+        background: linear-gradient(to right, red, purple);
+        padding: 1px;
         width: 100%;
         max-width: 800px;
-        border: 1px solid $black;
+    }
+
+    .wrap{
         display: flex;
         flex-direction: column;
         background: $white;
 
         header{
-            padding: 20px 50px;
+            padding: 50px;
             background-color: $black;
             color: $white;
         }
@@ -30,6 +58,10 @@ $padding: 100px;
         .content{
             padding: 20px 50px;
             flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
         }
 
         footer{
@@ -54,6 +86,21 @@ $padding: 100px;
 
     &.question{
 
+        .counter{
+            margin-bottom: 20px;
+            .line{
+                width: 20px;
+                height: 2px;
+                background-color: $grey;
+                display: inline-block;
+                margin: 2px;
+
+                &.active{
+                    background-color: $white;
+                }
+            }
+        }
+
         .answer{
             border: 1px solid $black;
             padding: 10px 20px;
@@ -68,33 +115,118 @@ $padding: 100px;
                 background: $black;
             }
         }
+
+        a.btn{
+            margin: 0 10px;
+        }
+    }
+
+    &.share{
+        footer{
+            display: block;
+        }
+
+        .shareSkip{
+            margin-top: 10px;
+            display: block;
+            color: $grey;
+            text-decoration: underline;
+
+            &:hover{
+                color: $black;
+            }
+        }
     }
 
     &.results{
+        position: relative;
+        margin: 100px auto;
+        text-align: left;
+
+        .gradient{
+            padding: 0;
+        }
+
         header{
             background-color: $white;
             color: $black;
+        }
+
+        .content{
+            flex-direction: column;
+            background-color: $lightgrey;
         }
 
         .result{
             margin: 50px 0;
         }
     }
+
+    //Typography
+    h1{
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        font-family: 'Bodoni', 'Times New Roman', Times, serif
+    }
+
+    h3{
+        font-size: 1.5em;
+        margin-bottom: 1em;
+        text-transform: uppercase;
+    }
+
+    h4{
+        font-size: 1.2em;
+        margin-bottom: 1em;
+    }
+
+    p{
+        margin-bottom: 1em;
+    }
+
+    a{
+        cursor: pointer;
+    }
+
+    a.btn{
+        display: inline-block;
+        padding: 5px 10px;
+        text-transform: uppercase;
+        border: 1px solid $black;
+        border-radius: 20px;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover:not(.inactive){
+            background-color: $black;
+            color: $white;
+        }
+
+        &.inactive{
+            color: $grey;
+            border-color: $grey;
+            cursor: default;
+        }
+    }
 }
 
+//Product Block
 
-//Typography
-h1{
-    font-size: 2em;
-    margin-bottom: 5px;
-}
+.productBlock{
 
-a.btn{
-    display: inline-block;
-    padding: 10px 15px;
-    border: 1px solid $black;
-    border-radius: 20px;
-    margin-top: 20px;
-    text-decoration: none;
-    cursor: pointer;
+    .productImage{
+        float: left;
+        width: 30%;
+
+        img{
+            max-width: 100%;
+        }
+    }
+
+    .productText{
+        float: left;
+        width: 70%;
+        padding: 20px;
+        text-align: left;
+    }
 }

@@ -11,7 +11,7 @@ module.exports = function(router){
     router.put('/api/settings', SettingsControllers.save);
 
     //Result Options
-    router.put('/api/settings/addoption', SettingsControllers.addOption);
+    router.put('/api/settings/saveoption', SettingsControllers.saveOption);
 
     //Questions
     router.put('/api/settings/savequestion', SettingsControllers.saveQuestion);

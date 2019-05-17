@@ -1,34 +1,40 @@
 import {Router} from '../routes'
-import { ResourceList,
+import { 
     Card,
     TextStyle,
-    Avatar,
     Layout,
     Page,
     Heading,
     TextContainer,
+    ButtonGroup,
+    Button
    } from '@shopify/polaris';
 
 class QuestionsList extends React.Component {
-
-  renderItem = (item) => {
-    const {question, paragraph} = item;
-
-    return (
-        <ResourceList.Item
-          accessibilityLabel={`View details for ${question}`}
-          onClick={() => Router.pushRoute('question', {slug: item._id})}
-        >
-        <h3>
-            <TextStyle variation="strong">{question}</TextStyle>
-        </h3>
-        <div>{paragraph}</div>
-        </ResourceList.Item>
-    );
-    }
     
       render() {
         const questions = this.props.questions
+
+        const renderQuestions = questions.map((question, index) => {
+          const first = index == 0
+          const last = index == questions.length - 1
+
+          return <div 
+              key={question._id}
+              className="question clearfix">
+              <div className="text">
+            <h3><TextStyle variation="strong">{question.question}</TextStyle></h3>
+            <div>{question.paragraph}</div>
+            </div>
+            <div className="actions">
+            <ButtonGroup>
+              <Button disabled={last} onClick={() => this.props.lowerQuestion(index)}>▼</Button>
+              <Button disabled={first} onClick={() => this.props.higherQuestion(index)}>▲</Button>
+              <Button primary onClick={() => Router.pushRoute('question', {slug: question._id})}>Edit</Button>
+            </ButtonGroup>
+            </div>
+          </div>
+        })
 
         return (
           <Page
@@ -48,11 +54,9 @@ class QuestionsList extends React.Component {
 
             <Layout.Section>
               <Card>
-                <ResourceList
-                      resourceName={{singular: 'question', plural: 'questions'}}
-                      items={questions}
-                      renderItem={this.renderItem}
-                  />
+                <div className="questionList">
+                  {renderQuestions}
+                </div>
               </Card>
             </Layout.Section>
           </Layout>

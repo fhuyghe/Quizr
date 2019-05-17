@@ -106,7 +106,7 @@ class Question extends React.Component {
                 }}
                 secondaryActions={[
                   {
-                    content: 'Cancel',
+                    content: 'Back',
                     onAction: () => Router.pushRoute('questions')
                   },
                   {

@@ -8,10 +8,18 @@ class Share extends React.Component{
         const { settings } = this.props
 
         return <QuizContainer name="share">
-            <h1>Share</h1>
-            <p>{ settings.shareParagraph }</p>
-            <a onClick={() => Router.pushRoute('quiz/shared')} className="btn">Send my Results</a>
-            <a onClick={() => Router.pushRoute('quiz/results')}>Not thanks, take me to my results</a>
+            <header>
+                <h1>Share</h1>
+            </header>
+
+            <div className="content">
+                <p>{ settings.shareParagraph }</p>
+            </div>
+
+            <footer>
+                <a onClick={() => Router.pushRoute('quiz/shared')} className="btn">Send my Results</a>
+                <a className="shareSkip" onClick={() => Router.pushRoute('quiz/results')}>Not thanks, take me to my results</a>
+            </footer>
         </QuizContainer>
     }
 }

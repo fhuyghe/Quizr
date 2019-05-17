@@ -21,7 +21,7 @@ class Question extends React.Component{
         const currentNumber = parseInt(this.props.query.number)
         const currentAnswer = answers[currentNumber]
 
-        const question = this.props.settings.questions[currentNumber - 1]
+        const question = settings.questions[currentNumber - 1]
 
         //Define if there is a following question
         const nextQuestion = currentNumber < settings.questions.length
@@ -38,13 +38,24 @@ class Question extends React.Component{
                     />
         })
 
+        // Render the counter
+        const renderCounter = settings.questions.map((item, index) => {
+            const className = index == currentNumber - 1 ? 'line active' : 'line'
+            return <div key={item._id} className={className} ></div>
+        })
+
         return <QuizContainer name="question">
             <header>
+                <div className="counter">
+                    {renderCounter}
+                </div>
                 <h1>{question.question}</h1>
             </header>
 
             <div className='content'>
-            {answerRender}
+                <div className="answerWrap">
+                    {answerRender}
+                </div>
             </div>
 
             <footer>
@@ -52,8 +63,8 @@ class Question extends React.Component{
                 && <a className="btn back" onClick={() => Router.pushRoute('quiz/question', {number: currentNumber - 1})}>Back</a>
             }
             { nextQuestion > 0 
-                ? <a className="btn next" onClick={() => Router.pushRoute('quiz/question', {number: nextQuestion})}>Next</a>
-                : <a className="btn share" onClick={() => Router.pushRoute('quiz/share')}>See Results</a>
+                ? <a className={currentAnswer ? "btn next" : "btn next inactive" } onClick={() => currentAnswer && Router.pushRoute('quiz/question', {number: nextQuestion})}>Next</a>
+                : <a className={currentAnswer ? "btn share" : "btn share inactive"} onClick={() => currentAnswer && Router.pushRoute('quiz/share')}>See Results</a>
             }
             </footer>
         </QuizContainer>

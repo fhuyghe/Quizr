@@ -1,3 +1,5 @@
+import ProductDisplay from './productDisplay'
+
 class Result extends React.Component {
 
   render() {
@@ -5,8 +7,8 @@ class Result extends React.Component {
 
     return (
        <div className="result" >
-       { result.title }
-       { result.product }
+       <h4>{ result.paragraph }</h4>
+       {result.product && <ProductDisplay product={result.product} />}
        </div>
     )
     };

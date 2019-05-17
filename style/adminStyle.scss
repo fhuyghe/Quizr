@@ -1,0 +1,33 @@
+//Variables
+$black: #000000;
+$white: #ffffff;
+$grey: #ABABAB;
+$lightgrey: #FAFAFA;
+
+//Admin
+.questionList{
+    .question{
+        border: 1px solid $lightgrey;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 10px;
+
+        .text{
+            float: left;
+        }
+
+        .actions{
+            float: right;
+        }
+    }
+}
+
+h3{
+    font-weight: 1.5em;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }

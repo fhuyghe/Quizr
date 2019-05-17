@@ -43,19 +43,27 @@ import {
             const product = res.data.product
             return (
             <Card sectioned>
-            <Thumbnail
-              source={
-                product.images.edges[0]
-                    ? product.images.edges[0].node.originalSrc
-                    : ''
-                }
-              alt={
-                product.images.edges[0]
-                  ? product.images.edges[0].node.altText
-                  : ''
-              }
-            />
+            <div className="productBlock">
+              <div className="productImage">
+                <img
+                  src={
+                    product.images.edges[0]
+                        ? product.images.edges[0].node.originalSrc
+                        : ''
+                    }
+                  alt={
+                    product.images.edges[0]
+                      ? product.images.edges[0].node.altText
+                      : ''
+                  }
+                />
+              </div>
+              <div className="productText">
                 <h3>{product.title}</h3>
+                <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+                <a className="btn" href={product.url}>Shop Now</a>
+                </div>
+                </div>
             </Card>
             );
         }}
