@@ -17,6 +17,7 @@ class GeneralForm extends React.Component {
         resultsTextAfter: '',
         introTitle: '',
         introParagraph: '',
+        shareParagraph: ''
     };
 
     componentWillMount(){
@@ -36,7 +37,8 @@ class GeneralForm extends React.Component {
             resultsParagraph,
             resultsTextAfter,
             introTitle,
-            introParagraph
+            introParagraph,
+            shareParagraph
         } = this.state;
 
     return (
@@ -77,6 +79,21 @@ class GeneralForm extends React.Component {
                     value={introParagraph}
                     multiline 
                     onChange={this.handleChange('introParagraph')} />
+            </FormLayout>
+            </Card>
+        </Layout.AnnotatedSection>
+
+        <Layout.AnnotatedSection
+            title="Share Page"
+            description="The paragraph inviting people to share their email."
+        >
+            <Card sectioned>
+            <FormLayout>
+                <TextField 
+                    label="Text"
+                    value={shareParagraph}
+                    multiline 
+                    onChange={this.handleChange('shareParagraph')} />
             </FormLayout>
             </Card>
         </Layout.AnnotatedSection>

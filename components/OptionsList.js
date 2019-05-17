@@ -37,7 +37,7 @@ class OptionsList extends React.Component {
             title="Options"
             primaryAction={{
               content: 'Add Option',
-              onAction: () => Router.pushRoute('options', {slug: 'new'})
+              onAction: () => Router.pushRoute('option', {slug: 'new'})
             }}
           >
           <Layout>

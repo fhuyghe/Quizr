@@ -38,7 +38,6 @@ import {
   
       return <Query query={GET_PRODUCT_BY_ID} variables={{ id: this.props.product }}>
         {(res) => {
-            console.log('res: ', res)
             if (res.loading) return <div>Loading…</div>;
             if (res.error) return <div>{res.error.message}</div>;
             const product = res.data.product

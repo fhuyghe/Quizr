@@ -1,11 +1,27 @@
-import {Link} from '../../routes'
+import {Router} from '../../routes'
 import QuizContainer from '../../components/QuizContainer'
+import Answer from '../../components/Answer'
+import { saveAnswer } from '../../store'
+import { connect } from 'react-redux'
 
 class Question extends React.Component{
+
+    constructor( props ) {
+        super( props );
+
+        this.clickedAnswer = this.clickedAnswer.bind( this );
+    }
+
+    static async getInitialProps ({query}) {
+        return {query}
+    }
+
     render() {
-        const {query, settings} = this.props
-        const currentNumber = parseInt(query.number)
-        const currentQuestion = settings.questions[currentNumber - 1]
+        const {settings, answers} = this.props
+        const currentNumber = parseInt(this.props.query.number)
+        const currentAnswer = answers[currentNumber]
+
+        const question = this.props.settings.questions[currentNumber - 1]
 
         //Define if there is a following question
         const nextQuestion = currentNumber < settings.questions.length
@@ -13,16 +29,18 @@ class Question extends React.Component{
             : 0
 
         //Render the answers
-        const answerRender = currentQuestion.answers.map((answer) => {
-            console.log(answer)
-            return <div className="answer" onClick={this.clickedAnswer(answer)}>
-                { answer.text }
-            </div>
+        const answerRender = question && question.answers.map((answer, index) => {
+            return <Answer 
+                        key={index} 
+                        answer={answer}
+                        selected={currentAnswer && currentAnswer._id == answer._id}
+                        clicked={this.clickedAnswer} 
+                    />
         })
 
         return <QuizContainer name="question">
             <header>
-                <h1>{currentQuestion.question}</h1>
+                <h1>{question.question}</h1>
             </header>
 
             <div className='content'>
@@ -30,26 +48,33 @@ class Question extends React.Component{
             </div>
 
             <footer>
+            { currentNumber > 1
+                && <a className="btn back" onClick={() => Router.pushRoute('quiz/question', {number: currentNumber - 1})}>Back</a>
+            }
             { nextQuestion > 0 
-                ? <Link route='/quiz/question' params={{number: 1}}>
-                    <a className="btn">Next</a>
-                </Link>
-                : <Link route='/quiz/share'>
-                    <a className="btn">See Results</a>
-                </Link>
+                ? <a className="btn next" onClick={() => Router.pushRoute('quiz/question', {number: nextQuestion})}>Next</a>
+                : <a className="btn share" onClick={() => Router.pushRoute('quiz/share')}>See Results</a>
             }
             </footer>
         </QuizContainer>
     }
 
     clickedAnswer(answer) {
-        console.log('clicked', answer)
-        //Change the display
-
         // Save selected answer
-
-        // Add a substract points
+        const currentNumber = parseInt(this.props.query.number)
+        this.props.saveAnswer(answer, currentNumber)
     }
 }
 
-export default Question;
+//Connect Redux
+const mapStateToProps = (state) => {
+    return {
+      settings: state.settings,
+      answers: state.answers
+    }
+  }
+  const mapDispatchToProps = { saveAnswer }
+
+  const connectedQuestion = connect(mapStateToProps, mapDispatchToProps)(Question)
+  
+  export default connectedQuestion;

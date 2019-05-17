@@ -8,13 +8,13 @@ module.exports = function(router){
     //router.prefix(`/api/${api}`);
 
     router.get('/api/settings/:shop', SettingsControllers.find);
-    router.post('/api/settings', SettingsControllers.add);
+    router.put('/api/settings', SettingsControllers.save);
 
     //Result Options
     router.put('/api/settings/addoption', SettingsControllers.addOption);
 
     //Questions
-    router.put('/api/settings/addquestion', SettingsControllers.addQuestion);
+    router.put('/api/settings/savequestion', SettingsControllers.saveQuestion);
 
     return router
 

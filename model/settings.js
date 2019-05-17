@@ -7,6 +7,7 @@ const settingsSchema = new Schema({
     introParagraph: { type: String },
     resultsTitle: { type: String },
     resultsParagraph: { type: String },
+    shareParagraph: { type: String },
     resultsTextAfter: { type: String },
     resultOptions:[{ type: Schema.Types.ObjectId, ref: 'ResultOption' }],
     questions:[{ type: Schema.Types.ObjectId, ref: 'Question' }]

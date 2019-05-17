@@ -9,12 +9,18 @@ class SettingsControllers {
         const data = await Settings
             .findOne({ shop: shop })
             .populate('resultOptions')
-            .populate('questions')
+            .populate({
+                path: 'questions',
+                populate: {
+                  path: 'answers.positive',
+                  model: 'ResultOption'
+                } 
+             })
         ctx.body = await data ? data : {shop: shop}
     }
 
     //POST settings
-    async add(ctx) {
+    async save(ctx) {
         try {
             const data = ctx.request.body;
 
@@ -63,7 +69,8 @@ class SettingsControllers {
     }
 
     //Add result option
-    async addQuestion(ctx) {
+    async saveQuestion(ctx) {
+        console.log('Saving Question')
 
         try {
             const data = ctx.request.body;
@@ -71,8 +78,7 @@ class SettingsControllers {
 
             if (question._id) {
                 console.log('Updating question')
-                const newQuestion = await Question.update({_id: option._id}, option);
-                ctx.body = newQuestion;
+                ctx.body = await Question.updateOne({_id: question._id}, question);
             } else {
                 console.log('New question')
                 const newQuestion = await new Question(question).save(function(err, doc){
@@ -85,7 +91,6 @@ class SettingsControllers {
                     }
                 });
                 ctx.body = newQuestion;
-                return newQuestion;
             }
         } catch (err) {
           ctx.throw(422);

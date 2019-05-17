@@ -10,6 +10,8 @@ import { Layout,
 } from '@shopify/polaris';
 import {Router} from '../routes'
 import Answer from '../components/answerForm'
+import { connect } from 'react-redux'
+import { getSettings, saveQuestion } from '../store'
 
 class Question extends React.Component {
 
@@ -17,6 +19,14 @@ class Question extends React.Component {
     newQuestion: true,
     question: '',
     answers: []
+  }
+
+  static async getInitialProps ({query}) {
+    return {query}
+  }
+
+  componentWillMount(){
+    this.props.getSettings(this.props.query.shop)
   }
 
   componentDidMount(){
@@ -39,8 +49,8 @@ class Question extends React.Component {
       newQuestion
     } = this.state
 
-    const options = this.props.settings.resultOptions.map((option) => {
-      return {value: option.slug , label: option.title}
+    const options = this.props.settings.resultOptions && this.props.settings.resultOptions.map((option) => {
+      return {value: option._id, _id: option._id , label: option.title}
     })
 
     return <Page
@@ -80,6 +90,7 @@ class Question extends React.Component {
                           index={index} 
                           key={'answer-' + index} 
                           handleAnswerChange={this.handleAnswerChange}
+                          removeTag={this.removeTag}
                         />}) }
                   <Button onClick={this.addAnswer} >
                     Add an answer
@@ -119,6 +130,15 @@ class Question extends React.Component {
     })
   };
 
+  removeTag = (index, type, option) => {
+    var newAnswers = this.state.answers
+    newAnswers[index][type].splice(option, 1);
+
+    this.setState({
+      answers: newAnswers
+    })
+  }
+
   addAnswer = () => {
     var newAnswers = this.state.answers
     newAnswers.push({
@@ -148,36 +168,26 @@ class Question extends React.Component {
   }
 
   saveQuestion = () => {
-    const dataToSave =  {question: this.state}
-    dataToSave.question.slug = slugify(this.state.question)
-    dataToSave.settings = this.props.settings
+    const dataToSave =  {
+      question: this.state,
+      settings: this.props.settings
+    }
 
-    console.log(dataToSave)
-
-    fetch('/api/settings/addquestion', {
-        method: 'PUT',
-        body: JSON.stringify(dataToSave),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then((data)=> {
-      console.log(data.body)
-    }).then((json) => {
-      this.setState({...json})
-    })
+    this.props.saveQuestion(dataToSave);
+  }
+ 
 }
 
-  
+//Connect Redux
+const mapStateToProps = (state) => {
+  return {
+    isLoaded: state.isLoaded,
+    settings: state.settings
+  }
 }
 
-function slugify(text)
-{
-  return text.toString().toLowerCase()
-    .replace(/\s+/g, '-')           // Replace spaces with -
-    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-    .replace(/^-+/, '')             // Trim - from start of text
-    .replace(/-+$/, '');            // Trim - from end of text
-}
+const mapDispatchToProps = { getSettings, saveQuestion }
 
-export default Question;
+const connectedQuestion = connect(mapStateToProps, mapDispatchToProps)(Question)
+
+export default connectedQuestion;

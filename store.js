@@ -1,10 +1,15 @@
 import thunkMiddleware from 'redux-thunk'
+import 'babel-polyfill'
 import { createStore, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger'
 import fetch from 'cross-fetch'
 import { merge } from 'lodash'
 
-const loggerMiddleware = createLogger()
+const loggerMiddleware = createLogger({
+  collapsed: true
+})
+
+const serverUrl = 'https://728582e1.ngrok.io'
 
 const initialState = {
     isFetching: false,
@@ -12,12 +17,15 @@ const initialState = {
     isSaving: false,
     settings: {
         collectEmailChecked: true,
-        resultsTitle: 'A Redux Title',
+        resultsTitle: '',
         resultsParagraph: '',
         resultsTextAfter: '',
         introTitle: '',
         introParagraph: '',
-    }
+        questions: [],
+        resultOptions: []
+    },
+    answers: []
 }
 
 export const actionTypes = {
@@ -27,6 +35,10 @@ export const actionTypes = {
   SAVE_SETTINGS: 'SAVE_SETTINGS',
   TRY_SAVING_SETTINGS: 'TRY_SAVING_SETTINGS',
   SUCCESS_SAVING_SETTINGS: 'SUCCESS_SAVING_SETTINGS',
+  SAVE_QUESTION: 'SAVE_QUESTION',
+  TRY_SAVING_QUESTION: 'TRY_SAVING_QUESTION',
+  SUCCESS_SAVING_QUESTION: 'SUCCESS_SAVING_QUESTION',
+  SAVE_ANSWER: 'SAVE_ANSWER'
 }
 
 // REDUCERS
@@ -43,9 +55,13 @@ export const reducer = (state = initialState, action) => {
             return newState
 
         case actionTypes.RECEIVE_SETTINGS:
-            newState.isFetching= false
-            newState.isLoaded= true
-            newState.settings= action.settings
+            newState.isFetching = false
+            newState.isLoaded = true
+            newState.settings = action.settings
+            return newState
+
+        case actionTypes.SAVE_ANSWER:
+            newState.answers = action.answers
             return newState
 
         default:
@@ -73,12 +89,10 @@ export function getSettings(shop) {
 
         const state = getState()
         if (state.isLoaded) return
-
-        
   
       dispatch(requestSettings(shop))
   
-      return fetch(`https://daaaea7b.ngrok.io/api/settings/${shop}`)
+      return fetch( serverUrl + `/api/settings/${shop}`)
         .then(
           response => response.json(),
           // Do not use catch
@@ -96,6 +110,7 @@ export function getSettings(shop) {
           isSaving: true
       }
   }
+
   export const successSavingSettings = (settings) => {
       return { 
           type: actionTypes.SUCCESS_SAVING_SETTINGS,
@@ -105,7 +120,7 @@ export function getSettings(shop) {
   }
 
   export function saveSettings(shop, data) {
-    return (dispatch, getState) => {
+    return (dispatch) => {
   
       dispatch(trySavingSettings(shop))
 
@@ -113,9 +128,9 @@ export function getSettings(shop) {
       dataToSave.shop = dataToSave.shop ? dataToSave.shop : shop
       dataToSave._id = dataToSave._id ? dataToSave._id : null
   
-      return fetch(`https://daaaea7b.ngrok.io/api/settings`,
+      return fetch( serverUrl + `/api/settings`,
             {
-                method: 'POST',
+                method: 'PUT',
                 body: JSON.stringify(dataToSave),
                 headers: {
                     'Content-Type': 'application/json'
@@ -130,6 +145,78 @@ export function getSettings(shop) {
         )
     }
   }
+
+  export const trySavingQuestion = () => {
+    return { 
+          type: actionTypes.TRY_SAVING_QUESTION,
+          isSaving: true
+      }
+  }
+
+  export const successSavingQuestion = (data) => {
+    // Save the new question in current settings
+    let newSettings = data.settings
+    let foundIndex = newSettings.questions.findIndex(x => x._id == data.question._id);
+    newSettings.questions[foundIndex] = data.question;
+
+    return { 
+        type: actionTypes.SUCCESS_SAVING_QUESTION,
+        settings: newSettings,
+        isSaving: false
+    }
+  }
+
+  export function saveQuestion(data) {
+    return (dispatch) => {
+  
+      dispatch(trySavingQuestion())
+
+      let dataToSave = data
+      dataToSave.question.slug = slugify(dataToSave.question.question)
+  
+      return fetch( serverUrl + `/api/settings/savequestion`,
+            {
+              method: 'PUT',
+              body: JSON.stringify(dataToSave),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+            })
+        .then(
+          response => response.json(),
+          // Do not use catch
+          error => console.log('An error occurred.', error)
+        )
+        .then(json => dispatch(successSavingQuestion(dataToSave))
+        )
+    }
+  }
+
+  export function saveAnswer(answer, questionNum) {
+    return (dispatch, getState) => {
+      const { answers } = getState();
+      let newAnswers = answers
+      newAnswers[questionNum] = answer
+
+      dispatch({ 
+        type: actionTypes.SAVE_ANSWER,
+        answers: newAnswers
+    })
+    }
+  }
+
+
+//SLUGIFY
+function slugify(text)
+{
+  return text.toString().toLowerCase()
+    .replace(/\s+/g, '-')           // Replace spaces with -
+    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+    .replace(/^-+/, '')             // Trim - from start of text
+    .replace(/-+$/, '');            // Trim - from end of text
+}
+
 
 
 // INITIALIZE

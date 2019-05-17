@@ -9,3 +9,6 @@ module.exports = routes()                           // ----   ----      -----
 .add('option', '/options/:slug')
 .add('preview', '/preview/:slide')
 .add('quiz/question', '/quiz/question/:number')
+.add('quiz/share', '/quiz/share')
+.add('quiz/shared', '/quiz/shared')
+.add('quiz/results', '/quiz/results')

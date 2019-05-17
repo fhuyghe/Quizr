@@ -17,6 +17,26 @@ $padding: 100px;
         width: 100%;
         max-width: 800px;
         border: 1px solid $black;
+        display: flex;
+        flex-direction: column;
+        background: $white;
+
+        header{
+            padding: 20px 50px;
+            background-color: $black;
+            color: $white;
+        }
+
+        .content{
+            padding: 20px 50px;
+            flex: 1;
+        }
+
+        footer{
+            padding: 20px 50px;
+            display: flex;
+            justify-content: center;
+        }
     }
 
     &.intro{
@@ -33,23 +53,31 @@ $padding: 100px;
     }
 
     &.question{
-        display: flex;
-        flex-direction: column;
 
+        .answer{
+            border: 1px solid $black;
+            padding: 10px 20px;
+            white-space: nowrap;
+            display: inline-block;
+            margin: 5px;
+            cursor: pointer;
+
+            &:hover,
+            &.selected{
+                color: $white;
+                background: $black;
+            }
+        }
+    }
+
+    &.results{
         header{
-            padding: 20px 50px;
-            background-color: $black;
-            color: $white;
+            background-color: $white;
+            color: $black;
         }
 
-        .content{
-            padding: 20px 50px;
-            flex: 1;
-        }
-
-        footer{
-            padding: 20px 50px;
-            text-align: right;
+        .result{
+            margin: 50px 0;
         }
     }
 }
@@ -68,4 +96,5 @@ a.btn{
     border-radius: 20px;
     margin-top: 20px;
     text-decoration: none;
+    cursor: pointer;
 }
