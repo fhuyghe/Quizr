@@ -4,6 +4,7 @@ import { Layout,
   Card,
 } from '@shopify/polaris';
 import Quiz from '../components/QuizContainer'
+import { getSettings } from '../store'
 
 
 class QuizPreview extends React.Component {

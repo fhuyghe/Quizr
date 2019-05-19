@@ -6,19 +6,9 @@ $lightgrey: #FAFAFA;
 
 //Admin
 .questionList{
-    .question{
-        border: 1px solid $lightgrey;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        padding: 10px;
-
-        .text{
-            float: left;
-        }
-
-        .actions{
-            float: right;
-        }
+    margin-bottom: 50px;
+    .Polaris-Stack--noWrap{
+        padding: 5px 20px 20px;
     }
 }
 

@@ -3,13 +3,14 @@ import { Layout,
   FormLayout,
   TextField,
   Card,
+  ButtonGroup,
   Button,
   PageActions,
   Subheading,
   Heading,
 } from '@shopify/polaris';
 import {Router} from '../routes'
-import Answer from '../components/answerForm'
+import Answer from '../components/AnswerForm'
 import { connect } from 'react-redux'
 import { getSettings, saveQuestion } from '../store'
 
@@ -18,6 +19,7 @@ class Question extends React.Component {
   state = {
     newQuestion: true,
     question: '',
+    text: '',
     answers: []
   }
 
@@ -45,6 +47,7 @@ class Question extends React.Component {
 
     const {
       question,
+      text,
       answers,
       newQuestion
     } = this.state
@@ -76,27 +79,39 @@ class Question extends React.Component {
                       label="Question" 
                       value={question} 
                       onChange={this.handleChange('question')} />
+                  <TextField 
+                      label="Text" 
+                      value={text} 
+                      multiline
+                      onChange={this.handleChange('text')} />
               </FormLayout>
             </Card>
           </Layout.Section>
 
-          <Layout.Section>
-            <Card sectioned>
-              <Subheading>Answers</Subheading>
+          <Layout.AnnotatedSection
+            title="Answers"
+            description="Shopify and your customers will use this information to contact you."
+          >
                   {answers.map((answer, index) => {
                       return <Answer 
-                          {...answer} 
+                          {...answer}
+                          length={answers.length}
                           options={options} 
                           index={index} 
                           key={'answer-' + index} 
                           handleAnswerChange={this.handleAnswerChange}
+                          deleteAnswer={this.deleteAnswer}
+                          lowerAnswer={this.lowerAnswer}
+                          higherAnswer={this.higherAnswer}
                           removeTag={this.removeTag}
-                        />}) }
-                  <Button onClick={this.addAnswer} >
+                        />
+                      }) }
+            <ButtonGroup>
+            <Button primary onClick={this.addAnswer} >
                     Add an answer
                   </Button>
-            </Card>
-          </Layout.Section>
+          </ButtonGroup>
+          </Layout.AnnotatedSection>
 
             <Layout.Section>
               <PageActions
@@ -151,6 +166,37 @@ class Question extends React.Component {
       answers: newAnswers
     })
   }
+
+  //Answers Things
+  deleteAnswer = (index) => {
+    var newAnswers = this.state.answers
+    newAnswers.splice(index, 1)
+
+    this.setState({
+      answers: newAnswers
+    })
+  }
+
+  lowerAnswer = (index) => {
+    var newAnswers = [...this.state.answers]
+    newAnswers[index] = this.state.answers[index + 1]
+    newAnswers[index + 1] = this.state.answers[index]
+
+    this.setState({
+      answers: newAnswers
+    })
+  }
+
+  higherAnswer = (index) => {
+    var newAnswers = [...this.state.answers]
+    newAnswers[index] = this.state.answers[index - 1]
+    newAnswers[index - 1] = this.state.answers[index]
+
+    this.setState({
+      answers: newAnswers
+    })
+  }
+
 
   handleChange = (field) => {
     return (value) => this.setState({[field]: value});

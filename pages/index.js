@@ -7,8 +7,10 @@ import { Loading } from '@shopify/polaris';
 
 class Index extends React.Component {
 
-    static async getInitialProps ({query}) {
-        return {query}
+    static async getInitialProps (ctx) {
+        return {
+            query: ctx.query
+        }
       }
 
     componentWillMount(){

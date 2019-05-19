@@ -40,7 +40,7 @@ app.prepare().then(() => {
         createShopifyAuth({
         apiKey: SHOPIFY_API_KEY,
         secret: SHOPIFY_API_SECRET_KEY,
-        scopes: ['read_products', 'unauthenticated_read_product_listings'],
+        scopes: ['read_products', 'unauthenticated_read_product_listings', 'read_themes', 'write_themes'],
 
         async afterAuth(ctx) {
             const { shop, accessToken } = ctx.session;
@@ -48,7 +48,7 @@ app.prepare().then(() => {
 
             const stringifiedBillingParams = JSON.stringify({
                 recurring_application_charge: {
-                name: 'Simple Quiz',
+                name: 'Quizr',
                 price: 0.00,
                 trial_days: 30,
                 return_url: TUNNEL_URL,
@@ -71,6 +71,7 @@ app.prepare().then(() => {
                 .then((response) => response.json())
                 .then((jsonData) => jsonData.recurring_application_charge.confirmation_url)
                 .catch((error) => console.log('error', error));
+
                 ctx.redirect(confirmationURL);
         },
             }),

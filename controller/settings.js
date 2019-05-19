@@ -12,9 +12,16 @@ class SettingsControllers {
             .populate({
                 path: 'questions',
                 populate: {
+                    path: 'answers.negative',
+                    model: 'ResultOption'
+                  }
+             })
+             .populate({
+                path: 'questions',
+                populate: {
                   path: 'answers.positive',
                   model: 'ResultOption'
-                } 
+                }
              })
         ctx.body = await data ? data : {shop: shop}
     }
@@ -82,16 +89,17 @@ class SettingsControllers {
                 ctx.body = await Question.updateOne({_id: question._id}, question);
             } else {
                 console.log('New question')
-                const newQuestion = await new Question(question).save(function(err, doc){
+                await new Question(question).save(function(err, doc){
                     if (!err){
                         Settings.findOne({ _id: data.settings._id }, function (err, settings) {
                             console.log('Found the settings');
                             settings.questions.push(doc)
                             settings.save()
                         });
+                        console.log(doc)
+                        ctx.body = doc;
                     }
                 });
-                ctx.body = newQuestion;
             }
         } catch (err) {
           ctx.throw(422);

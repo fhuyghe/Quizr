@@ -6,8 +6,8 @@ import {
     Page,
     Heading,
     TextContainer,
-    ButtonGroup,
-    Button
+    Stack,
+    Badge
    } from '@shopify/polaris';
 
 class QuestionsList extends React.Component {
@@ -19,21 +19,29 @@ class QuestionsList extends React.Component {
           const first = index == 0
           const last = index == questions.length - 1
 
-          return <div 
+          return <Card 
               key={question._id}
-              className="question clearfix">
-              <div className="text">
-            <h3><TextStyle variation="strong">{question.question}</TextStyle></h3>
-            <div>{question.paragraph}</div>
-            </div>
-            <div className="actions">
-            <ButtonGroup>
-              <Button disabled={last} onClick={() => this.props.lowerQuestion(index)}>▼</Button>
-              <Button disabled={first} onClick={() => this.props.higherQuestion(index)}>▲</Button>
-              <Button primary onClick={() => Router.pushRoute('question', {slug: question._id})}>Edit</Button>
-            </ButtonGroup>
-            </div>
-          </div>
+              title={question.question}
+              onClick={() => Router.pushRoute('question', {slug: question._id})}
+              actions={[
+                { content: '▼',
+                  disabled: last,  
+                  onAction: () => this.props.lowerQuestion(index)},
+                { content: '▲',
+                  disabled: first,
+                  onAction: () => this.props.higherQuestion(index)},
+                { content: 'Edit',
+                    onAction: () => Router.pushRoute('question', {slug: question._id})
+                  }
+                ]}
+                >
+              <p>{question.text}</p>
+              <Stack wrap={false}>
+                { question.answers && question.answers.map((answer, index) => {
+                  return <Badge key={index}>{answer.text}</Badge>
+                })}
+              </Stack>
+          </Card>
         })
 
         return (
@@ -53,11 +61,9 @@ class QuestionsList extends React.Component {
             </Layout.Section>
 
             <Layout.Section>
-              <Card>
                 <div className="questionList">
                   {renderQuestions}
                 </div>
-              </Card>
             </Layout.Section>
           </Layout>
           </Page>

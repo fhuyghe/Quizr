@@ -24,6 +24,7 @@ const resultOptionSchema = Schema({
 // Questions
 const questionSchema = Schema({ 
     question: String,
+    text: String,
     answers: [{
         text: String,
         positive: [{ type: Schema.Types.ObjectId, ref: 'ResultOption' }],

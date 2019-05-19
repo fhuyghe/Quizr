@@ -5,7 +5,8 @@ import {
   Autocomplete,
   Stack, 
   Tag,
-  TextContainer
+  TextContainer,
+  Card
 } from '@shopify/polaris';
 
 class Answer extends React.Component {
@@ -20,7 +21,7 @@ class Answer extends React.Component {
   }
     
     render() {
-      const { text } = this.props
+      const { text, index, length } = this.props
 
       const PositiveTextField = (
         <Autocomplete.TextField
@@ -38,8 +39,23 @@ class Answer extends React.Component {
         />
       );
 
-      return (
+      const first = index == 0
+      const last = index == length - 1
 
+      return (
+        <Card sectioned
+          title={text}
+          actions={[
+            { content: 'Delete',
+              onAction: () => this.props.deleteAnswer(index)},
+            { content: '▼',
+              disabled: last,
+              onAction: () => this.props.lowerAnswer(index)},
+            { content: '▲',
+              disabled: first,
+              onAction: () => this.props.higherAnswer(index)},
+          ]}
+        >
         <FormLayout>
           <TextField 
             label="Text" 
@@ -68,6 +84,7 @@ class Answer extends React.Component {
             onSelect={(selected) => this.updateSelection('negative', selected)}
           />
         </FormLayout>
+        </Card>
       );
     }
 
@@ -125,7 +142,8 @@ class Answer extends React.Component {
         });
       }
     };
-    
+
+    //Render Tags
     renderTags = (type) => {
       return this.props[type].map((option, index) => {
         return (
@@ -136,16 +154,6 @@ class Answer extends React.Component {
       });
     };
 
-  }
-
-  function titleCase(string) {
-    string = string
-      .toLowerCase()
-      .split('-')
-      .map(function(word) {
-        return word.replace(word[0], word[0].toUpperCase());
-      });
-    return string.join(' ');
   }
     
 export default Answer;
