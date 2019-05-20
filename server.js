@@ -28,11 +28,6 @@ mongoose.set('useCreateIndex', true);
 
 const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, TUNNEL_URL } = process.env;
 
-//For routes on heroku
-if (process.env.NODE_ENV === 'production') {
-	app.use(express.static('client/build'));
-}
-
 app.prepare().then(() => {
     const server = new Koa();
     const router = new Router();

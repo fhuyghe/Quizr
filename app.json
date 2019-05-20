@@ -1,0 +1,9 @@
+{
+    "name": "Quizr",
+    "website": "https://quizr.13milliseconds.com/",
+    "buildpacks": [
+      {
+        "url": "heroku/nodejs"
+      }
+    ]
+  }
