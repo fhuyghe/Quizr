@@ -10,7 +10,7 @@ import { Layout,
   Heading,
 } from '@shopify/polaris';
 import {Router} from '../routes'
-import AnswerForm from '../components/AnswerForm'
+import AnswerForm from '../components/AnswerForm.js'
 import { connect } from 'react-redux'
 import { getSettings, saveQuestion } from '../store'
 
