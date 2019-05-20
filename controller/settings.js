@@ -30,6 +30,7 @@ class SettingsControllers {
     async save(ctx) {
         try {
             const data = ctx.request.body;
+            console.log(data)
 
             if (data._id) {
                 console.log('Updating')

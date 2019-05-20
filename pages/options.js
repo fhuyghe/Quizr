@@ -15,7 +15,7 @@ class Options extends React.Component {
   }
 
   render() {
-    const emptyState = !this.props.settings || !this.props.settings.resultOptions;
+    const emptyState = !this.props.settings || this.props.settings.resultOptions && this.props.settings.resultOptions.length == 0;
 
     return (
       <div>

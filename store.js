@@ -4,7 +4,6 @@ import { createStore, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger'
 import fetch from 'cross-fetch'
 import { merge } from 'lodash'
-console.log(process.env)
 
 const loggerMiddleware = createLogger({
   collapsed: true
@@ -110,7 +109,7 @@ export const receiveSettings = (shop, settings) => {
     }
 }
 
-export function getSettings(shop, token) {
+export function getSettings(shop) {
     return function(dispatch, getState) {
 
         const state = getState()
@@ -130,24 +129,9 @@ export function getSettings(shop, token) {
     }
   }
 
-  export function getThemes(shop, token) {
-    return function(dispatch) {
-  
-      return fetch( 'https://' + shop + '/admin/themes.json')
-        .then(
-          response => response.json(),
-          // Do not use catch
-          error => console.log('An error occurred.', error)
-        )
-        .then(json => console.log(json)
-        )
-    }
-  }
-
   //#################
   // SAVE SETTINGS
   //#################
-
 
   export const trySavingSettings = (shop) => {
     return { 

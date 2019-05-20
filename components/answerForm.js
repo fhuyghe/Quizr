@@ -9,7 +9,7 @@ import {
   Card
 } from '@shopify/polaris';
 
-class Answer extends React.Component {
+class AnswerForm extends React.Component {
   
   state = {
     positiveSelected: this.props.positive,
@@ -156,4 +156,4 @@ class Answer extends React.Component {
 
   }
     
-export default Answer;
+export default AnswerForm;

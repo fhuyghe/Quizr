@@ -11,6 +11,7 @@ const session = require('koa-session');
 require('isomorphic-fetch');
 dotenv.config();
 const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy');
+const { readFileSync } = require('fs');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -40,21 +41,79 @@ app.prepare().then(() => {
         createShopifyAuth({
         apiKey: SHOPIFY_API_KEY,
         secret: SHOPIFY_API_SECRET_KEY,
-        scopes: ['read_products', 'unauthenticated_read_product_listings', 'read_themes', 'write_themes'],
+        scopes: [
+            'read_products', 
+            'unauthenticated_read_product_listings', 
+            'read_themes', 
+            'write_themes',
+            'write_content'
+        ],
 
         async afterAuth(ctx) {
+            console.log('AfterAuth');
             const { shop, accessToken } = ctx.session;
             ctx.cookies.set('shopOrigin', shop, { httpOnly: false })
 
             const stringifiedBillingParams = JSON.stringify({
                 recurring_application_charge: {
                 name: 'Quizr',
-                price: 0.00,
+                price: 9.00,
                 trial_days: 30,
                 return_url: TUNNEL_URL,
                 test: true
                 }
             })
+
+            // Add the Quiz page in the theme
+            const themesOptions = {
+                method: 'GET',
+                credentials: 'include',
+                headers: { 'X-Shopify-Access-Token': accessToken }
+                };
+
+            const templateOptions = {
+                method: 'PUT',
+                credentials: 'include',
+                body: JSON.stringify({
+                    asset: {
+                        key: "templates/page.quizr.liquid",
+                        value: readFileSync('lib/quizr-template.html', 'utf8')
+                    }
+                }),
+                headers: { 
+                    'X-Shopify-Access-Token': accessToken,
+                    'Content-type': 'application/json' 
+                }
+                };
+
+            const pageOptions = {
+                method: 'POST',
+                credentials: 'include',
+                body: JSON.stringify({
+                    page: {
+                        title: "Quiz",
+                        body_html: "",
+                        template_suffix: "quizr"
+                    }
+                }),
+                headers: { 
+                    'X-Shopify-Access-Token': accessToken,
+                    'Content-type': 'application/json' 
+                }
+                };
+
+            const setupApp = await fetch(`https://${shop}/admin/themes.json`, themesOptions)
+                .then((response) => response.json())
+                .then((jsonData) => {
+                    const mainTheme =  jsonData.themes.filter(theme => theme.role == "main")[0]
+
+                    return fetch(`https://${shop}/admin/api/2019-04/themes/${mainTheme.id}/assets.json`, templateOptions).then((json) => {
+                        return fetch(`https://${shop}/admin/api/2019-04/pages.json`, pageOptions)
+                    })
+                })
+                .catch((error) => console.log('error', error));
+            console.log('Setup: ', setupApp)
+
 
             const options = {
                 method: 'POST',
@@ -65,7 +124,7 @@ app.prepare().then(() => {
                     'Content-Type': 'application/json',
                 },
                 };
-
+ 
             const confirmationURL = await fetch(
                 `https://${shop}/admin/recurring_application_charges.json`, options)
                 .then((response) => response.json())

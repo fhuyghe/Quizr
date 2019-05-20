@@ -10,7 +10,7 @@ import { Layout,
   Heading,
 } from '@shopify/polaris';
 import {Router} from '../routes'
-import Answer from '../components/AnswerForm'
+import AnswerForm from '../components/AnswerForm'
 import { connect } from 'react-redux'
 import { getSettings, saveQuestion } from '../store'
 
@@ -93,7 +93,7 @@ class Question extends React.Component {
             description="Shopify and your customers will use this information to contact you."
           >
                   {answers.map((answer, index) => {
-                      return <Answer 
+                      return <AnswerForm 
                           {...answer}
                           length={answers.length}
                           options={options} 
