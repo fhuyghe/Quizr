@@ -3,6 +3,7 @@ import { Layout,
   Page,
   Card,
 } from '@shopify/polaris';
+import { connect } from 'react-redux'
 import Quiz from '../components/QuizContainer'
 import { getSettings } from '../store'
 
