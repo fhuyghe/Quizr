@@ -9,7 +9,7 @@ const loggerMiddleware = createLogger({
   collapsed: true
 })
 
-const serverUrl = 'https://728582e1.ngrok.io'
+const serverUrl = 'https://quizr.13milliseconds.com'
 
 const initialState = {
     isFetching: false,
