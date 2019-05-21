@@ -1,5 +1,5 @@
 const Koa = require('koa');
-var router = require('koa-router')();
+const Router = require('koa-router');
 var bodyParser = require('koa-bodyparser');
 const next = require('next');
 const routes = require('./routes')
@@ -30,11 +30,12 @@ const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, TUNNEL_URL } = process.env;
 
 app.prepare().then(() => {
     const server = new Koa();
+    const router = new Router();
     server.use(bodyParser());
     server.use(session(server));
     server.keys = [SHOPIFY_API_SECRET_KEY];
 
-    router = require('./routes/api')(router);
+    require('./routes/api')(router);
 
     server.use(
         createShopifyAuth({
@@ -136,7 +137,7 @@ app.prepare().then(() => {
     );
         
     server.use(graphQLProxy());
-    server.use(router.routes())
+    server.use(router.routes());
     server.use(verifyRequest());
 
 
