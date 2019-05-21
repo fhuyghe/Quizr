@@ -9,7 +9,7 @@ const loggerMiddleware = createLogger({
   collapsed: true
 })
 
-const serverUrl = 'https://quizr.13milliseconds.com'
+const serverUrl = 'http://localhost:5000'
 
 const initialState = {
     isFetching: false,
@@ -120,9 +120,10 @@ export function getSettings(shop) {
   
       return fetch( serverUrl + `/api/settings/${shop}`)
         .then(
-          response => response.json(),
-          // Do not use catch
-          error => console.log('An error occurred.', error)
+          response => {
+            console.log(response)
+            response.json()
+          }
         )
         .then(json => dispatch(receiveSettings(shop, json))
         )

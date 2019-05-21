@@ -7,7 +7,9 @@ class SettingsControllers {
         try{
             console.log('Getting Settings');
             const {shop} = ctx.params
-            const data = await Settings
+
+            if (shop) {
+                const data = await Settings
                 .findOne({ shop: shop })
                 .populate('resultOptions')
                 .populate({
@@ -24,7 +26,10 @@ class SettingsControllers {
                     model: 'ResultOption'
                     }
                 })
-            ctx.body = await data ? data : {shop: shop}
+                ctx.body = await data ? data : {shop: shop}
+            } else {
+                ctx.body = {shop: null}
+            }
         } catch (err) {
         ctx.throw(422);
       }
