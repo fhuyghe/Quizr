@@ -1,6 +1,6 @@
 const Koa = require('koa');
+var router = require('koa-router')();
 var bodyParser = require('koa-bodyparser');
-const {router} = require('./routes/api');
 const next = require('next');
 const routes = require('./routes')
 const mongoose = require('mongoose');
@@ -33,6 +33,8 @@ app.prepare().then(() => {
     server.use(bodyParser());
     server.use(session(server));
     server.keys = [SHOPIFY_API_SECRET_KEY];
+
+    router = require('./routes/api')(router);
 
     server.use(
         createShopifyAuth({
@@ -134,9 +136,7 @@ app.prepare().then(() => {
     );
         
     server.use(graphQLProxy());
-    server
-        .use(router.routes())
-        .use(router.allowedMethods())
+    server.use(router.routes())
     server.use(verifyRequest());
 
 
