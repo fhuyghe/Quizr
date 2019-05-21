@@ -4,26 +4,30 @@ class SettingsControllers {
 
     //GET the settings
     async find(ctx) {
-        console.log('Getting Settings');
-        const {shop} = ctx.params
-        const data = await Settings
-            .findOne({ shop: shop })
-            .populate('resultOptions')
-            .populate({
-                path: 'questions',
-                populate: {
-                    path: 'answers.negative',
+        try{
+            console.log('Getting Settings');
+            const {shop} = ctx.params
+            const data = await Settings
+                .findOne({ shop: shop })
+                .populate('resultOptions')
+                .populate({
+                    path: 'questions',
+                    populate: {
+                        path: 'answers.negative',
+                        model: 'ResultOption'
+                    }
+                })
+                .populate({
+                    path: 'questions',
+                    populate: {
+                    path: 'answers.positive',
                     model: 'ResultOption'
-                  }
-             })
-             .populate({
-                path: 'questions',
-                populate: {
-                  path: 'answers.positive',
-                  model: 'ResultOption'
-                }
-             })
-        ctx.body = await data ? data : {shop: shop}
+                    }
+                })
+            ctx.body = await data ? data : {shop: shop}
+        } catch (err) {
+        ctx.throw(422);
+      }
     }
 
     //POST settings
