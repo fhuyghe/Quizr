@@ -12,6 +12,7 @@ require('isomorphic-fetch');
 dotenv.config();
 const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy');
 const { readFileSync } = require('fs');
+const SettingsControllers = require('./controller/settings');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -30,13 +31,13 @@ const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, TUNNEL_URL } = process.env;
 
 app.prepare().then(() => {
     const server = new Koa();
-    let router = new Router();
+    //let router = new Router();
     server.use(bodyParser());
     server.use(session(server));
     server.keys = [SHOPIFY_API_SECRET_KEY];
 
-    router = require('./routes/api')(router);
-    server.use(router.routes());
+    //router = require('./routes/api')(router);
+
 
     server.use(
         createShopifyAuth({
@@ -138,6 +139,10 @@ app.prepare().then(() => {
     );
         
     server.use(graphQLProxy());
+    //server.use(router.routes());
+    server.get('/api/settings/:shop', SettingsControllers.find);
+
+
     server.use(verifyRequest());
 
 
