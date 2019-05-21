@@ -37,6 +37,7 @@ app.prepare().then(() => {
     server.keys = [SHOPIFY_API_SECRET_KEY];
 
     //router = require('./routes/api')(router);
+    server.get('/api/settings/:shop', SettingsControllers.find);
 
 
     server.use(
@@ -140,7 +141,6 @@ app.prepare().then(() => {
         
     server.use(graphQLProxy());
     //server.use(router.routes());
-    server.get('/api/settings/:shop', SettingsControllers.find);
 
 
     server.use(verifyRequest());
