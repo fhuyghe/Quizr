@@ -9,7 +9,7 @@ const loggerMiddleware = createLogger({
   collapsed: true
 })
 
-const serverUrl = 'http://localhost:5000'
+const serverUrl = process.env.APP_URL
 
 const initialState = {
     isFetching: false,
