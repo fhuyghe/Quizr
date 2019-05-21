@@ -31,7 +31,7 @@ const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, TUNNEL_URL } = process.env;
 
 app.prepare().then(() => {
     const server = new Koa();
-    //let router = new Router();
+    let router = new Router();
     server.use(bodyParser());
     server.use(session(server));
     server.keys = [SHOPIFY_API_SECRET_KEY];
