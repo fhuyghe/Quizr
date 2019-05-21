@@ -126,6 +126,9 @@ export function getSettings(shop) {
         )
         .then(json => dispatch(receiveSettings(shop, json))
         )
+        .catch(err => {
+          console.error(err);
+        });
     }
   }
 
