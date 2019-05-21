@@ -28,15 +28,11 @@ mongoose.set('useCreateIndex', true);
 
 const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, TUNNEL_URL } = process.env;
 
-console.log('Start server')
-
 app.prepare().then(() => {
     const server = new Koa();
     server.use(bodyParser());
     server.use(session(server));
     server.keys = [SHOPIFY_API_SECRET_KEY];
-
-    console.log('server started')
 
     server.use(
         createShopifyAuth({
