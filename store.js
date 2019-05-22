@@ -120,16 +120,12 @@ export function getSettings(shop) {
   
       return fetch( serverUrl + `/api/settings/${shop}`)
         .then(
-          response => {
-            console.log(response)
-            response.json()
-          }
+          response => response.json(),
+          // Do not use catch
+          error => console.log('An error occurred.', error)
         )
         .then(json => dispatch(receiveSettings(shop, json))
         )
-        .catch(err => {
-          console.error(err);
-        });
     }
   }
 
