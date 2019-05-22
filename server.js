@@ -141,7 +141,7 @@ app.prepare().then(() => {
     server.use(verifyRequest());
 
 
-    server.use(async (ctx) => {
+    server.use(async (ctx) => { 
       await handle(ctx.req, ctx.res);
       ctx.respond = false;
       ctx.res.statusCode = 200;
