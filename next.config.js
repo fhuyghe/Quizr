@@ -6,7 +6,7 @@ module.exports = withCSS(withSass({
   webpack: config => {
     const env = { 
       API_KEY: JSON.stringify(process.env.SHOPIFY_API_KEY),
-      APP_URL: process.env.APP_URL 
+      APP_URL: JSON.stringify(process.env.APP_URL) 
     };
     config.plugins.push(new webpack.DefinePlugin(env));
     return config;
