@@ -64,7 +64,6 @@ class SettingsControllers {
 
             if (option._id) {
                 console.log('Updating option')
-                console.log(option)
                 const resultOption = await ResultOption.updateOne({_id: option._id}, option);
                 ctx.body = resultOption;
             } else {
@@ -86,7 +85,7 @@ class SettingsControllers {
         }
     }
 
-    //Add result option
+    //Save Question
     async saveQuestion(ctx) {
         console.log('Saving Question')
 

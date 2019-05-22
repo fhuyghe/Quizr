@@ -22,7 +22,7 @@ class Option extends React.Component {
     resourcePickerOpen: false,
     title: '',
     paragraph: '',
-    product: ''
+    product: {}
   }
 
   static async getInitialProps ({query}) {
@@ -85,16 +85,16 @@ class Option extends React.Component {
             <Card sectioned>
               <Subheading>Product</Subheading>
               <Button onClick={this.resourcePickerOpen}>
-                {this.state.product ? 'Change' : 'Select'}
+                {this.state.product.id ? 'Change' : 'Select'}
               </Button>
-              {this.state.product && <ProductDisplay product={this.state.product} />}
+              {this.state.product && this.state.product.id && <ProductDisplay product={this.state.product.id} />}
               <ResourcePicker
                   allowMultiple={false}
                   showVariants={false}
                   resourceType="Product"
                   open={this.state.resourcePickerOpen}
                   onSelection={({selection}) => {
-                    this.setState({product: selection[0].id});
+                    this.setState({product: selection[0]});
                     this.setState({resourcePickerOpen: false});
                   }}
                   onCancel={() => this.setState({resourcePickerOpen: false})}

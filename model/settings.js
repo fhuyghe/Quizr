@@ -18,7 +18,20 @@ const resultOptionSchema = Schema({
     title: String,
     slug: String,
     paragraph: String,
-    product: String
+    product: {
+      id: String,
+      title: String,
+      handle: String,
+      descriptionHtml: String,
+      images:{
+          edges: [{
+            node: {
+              originalSrc: String,
+              altText: String
+            }
+          }]
+        }
+    }
   });
 
 // Questions
