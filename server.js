@@ -11,6 +11,7 @@ const session = require('koa-session');
 require('isomorphic-fetch');
 dotenv.config();
 const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy');
+const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy');
 const { readFileSync } = require('fs');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
@@ -136,7 +137,7 @@ app.prepare().then(() => {
             }),
     );
         
-    server.use(graphQLProxy());
+    server.use(graphQLProxy({version: ApiVersion.April19}))
     server.use(router.routes());
     server.use(verifyRequest());
 
