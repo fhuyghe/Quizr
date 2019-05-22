@@ -15,7 +15,10 @@ global.fetch = require('node-fetch');
 
 const client = new ApolloClient({
   fetchOptions: {
-    credentials: 'include'
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/graphql',
+    }
   },
 });
 
