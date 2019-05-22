@@ -13,16 +13,16 @@ import withReduxStore from '../lib/with-redux-store'
 
 global.fetch = require('node-fetch');
 
-const client = new ApolloClient({
-  fetchOptions: {
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/graphql',
-    }
-  },
-});
+// const client = new ApolloClient({
+//   fetchOptions: {
+//     credentials: 'include',
+//     headers: {
+//       'Content-Type': 'application/graphql',
+//     }
+//   },
+// });
 
-/* const client = new ApolloClient({
+const client = new ApolloClient({
   link: new createHttpLink({
     credentials: 'include',
     headers: {
@@ -30,7 +30,7 @@ const client = new ApolloClient({
     }
   }),
   cache: new InMemoryCache(),
-}) */
+}) 
 
 class QuizrApp extends App {
     state = {
