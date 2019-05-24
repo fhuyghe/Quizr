@@ -16,8 +16,13 @@ class Question extends React.Component{
         return {query}
     }
 
+    componentWillReceiveProps(nextProps) { 
+        console.log('componentWillReceiveProps', nextProps); 
+    }
+
     render() {
-        const {settings, answers} = this.props
+        const answers = this.props.answers
+        const {settings} = this.props
         const currentNumber = parseInt(this.props.query.number)
         const currentAnswer = answers[currentNumber]
 

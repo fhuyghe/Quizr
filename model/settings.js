@@ -10,7 +10,19 @@ const settingsSchema = new Schema({
     shareParagraph: { type: String },
     resultsTextAfter: { type: String },
     resultOptions:[{ type: Schema.Types.ObjectId, ref: 'ResultOption' }],
-    questions:[{ type: Schema.Types.ObjectId, ref: 'Question' }]
+    questions:[{ type: Schema.Types.ObjectId, ref: 'Question' }],
+    resultEmail: { type: String },
+    thankYouTitle: { type: String },
+    thankYouText: { type: String },
+    title: { type: String },
+    intro: { type: String },
+
+});
+
+// Collected Emails
+const emailsSchema = new Schema({
+  shop: { type: String, unique : true, required : true, dropDups: true},
+  emails: [{ type: String }]
 });
 
 //Result Options
@@ -46,7 +58,8 @@ const questionSchema = Schema({
   });
 
   const Settings = mongoose.model('Settings', settingsSchema);
+  const Emails = mongoose.model('Emails', emailsSchema);
   const ResultOption = mongoose.model('ResultOption', resultOptionSchema);
   const Question = mongoose.model('Question', questionSchema);
 
-module.exports = { Settings, ResultOption, Question }
+module.exports = { Settings, Emails, ResultOption, Question }

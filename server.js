@@ -86,29 +86,13 @@ app.prepare().then(() => {
                 }
                 };
 
-            const pageOptions = {
-                method: 'POST',
-                credentials: 'include',
-                body: JSON.stringify({
-                    page: {
-                        title: "Quiz",
-                        body_html: "",
-                        template_suffix: "quizr"
-                    }
-                }),
-                headers: { 
-                    'X-Shopify-Access-Token': accessToken,
-                    'Content-type': 'application/json' 
-                }
-                };
-
             const setupApp = await fetch(`https://${shop}/admin/themes.json`, themesOptions)
                 .then((response) => response.json())
                 .then((jsonData) => {
                     const mainTheme =  jsonData.themes.filter(theme => theme.role == "main")[0]
 
                     return fetch(`https://${shop}/admin/api/2019-04/themes/${mainTheme.id}/assets.json`, templateOptions).then((json) => {
-                        return fetch(`https://${shop}/admin/api/2019-04/pages.json`, pageOptions)
+                        return json
                     })
                 })
                 .catch((error) => console.log('error', error));
