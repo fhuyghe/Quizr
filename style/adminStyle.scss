@@ -7,17 +7,41 @@ $lightgrey: #FAFAFA;
 //Admin
 .questionList{
     margin-bottom: 50px;
+
     .Polaris-Stack--noWrap{
         padding: 5px 20px 20px;
     }
 }
 
-h3{
-    font-weight: 1.5em;
+.productBlock{
+    @include clearfix;
+
+    .productImage{
+        width: 25%;
+        float: left;
+
+        img{
+            max-width: 100%;
+        }
+    }
+
+    .productText{
+        width: 75%;
+        float: left;
+        padding-left: 20px;
+    }
+
 }
 
-.clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
+h3{
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+@mixin clearfix{
+    &::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+}
