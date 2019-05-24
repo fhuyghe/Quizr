@@ -4,7 +4,6 @@ import { Layout,
   Card,
 } from '@shopify/polaris';
 import { connect } from 'react-redux'
-import Quiz from '../components/QuizContainer'
 import { getSettings } from '../store'
 
 
@@ -25,9 +24,9 @@ class QuizPreview extends React.Component {
     title='Preview'
     >
       <Layout>
-        <Card>
-          <Quiz { ...this.props }/>
-        </Card>
+      <div className="quizrWrap">
+        <iframe src={"https://quizr.13milliseconds.com/?shop=" + this.props.settings.shop} frameborder="0" onload="resizeIframe(this)"></iframe>
+      </div>
       </Layout>
     </Page>
     )
