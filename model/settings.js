@@ -35,14 +35,7 @@ const resultOptionSchema = Schema({
       title: String,
       handle: String,
       descriptionHtml: String,
-      images:{
-          edges: [{
-            node: {
-              originalSrc: String,
-              altText: String
-            }
-          }]
-        }
+      image: String
     }
   });
 

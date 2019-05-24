@@ -301,6 +301,7 @@ export function getSettings(shop) {
 
       let dataToSave = data
       dataToSave.option.slug = slugify(dataToSave.option.title)
+      dataToSave.option.product.image = data.option.product.images.edges[0].node.originalSrc
   
       return fetch( serverUrl + `/api/settings/saveoption`,
             {
