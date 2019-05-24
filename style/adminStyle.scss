@@ -4,6 +4,15 @@ $white: #ffffff;
 $grey: #ABABAB;
 $lightgrey: #FAFAFA;
 
+//Mixins
+@mixin clearfix{
+    &::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+}
+
 //Admin
 .questionList{
     margin-bottom: 50px;
@@ -36,12 +45,4 @@ $lightgrey: #FAFAFA;
 h3{
     font-size: 1.5em;
     margin-bottom: 10px;
-}
-
-@mixin clearfix{
-    &::after {
-        content: "";
-        clear: both;
-        display: table;
-      }
 }
