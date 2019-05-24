@@ -148,7 +148,10 @@ class Option extends React.Component {
 
   saveOption = (option) => {
     const dataToSave =  {option: option}
-    dataToSave.option.product = option.product ? option.product : null
+    dataToSave.option.product = option.product 
+      ? option.product 
+      : null
+    dataToSave.option.product.image = data.option.product.images[0].originalSrc
     dataToSave.settings = this.props.settings
 
     this.props.saveOption(dataToSave)
