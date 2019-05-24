@@ -46,3 +46,15 @@ h3{
     font-size: 1.5em;
     margin-bottom: 10px;
 }
+
+//Preview Page
+.quizrWrap{
+    position: relative;
+    height: 100vh;
+
+    iframe{
+        width: 100%;
+        min-height: 100%;
+        border: 0;
+      }
+}
