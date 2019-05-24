@@ -55,17 +55,21 @@ class GeneralForm extends React.Component {
         >
             <Card sectioned>
             <FormLayout>
-                <Checkbox
-                    checked={collectEmailChecked}
-                    label="Collect emails at the end of the quiz"
-                    onChange={this.handleCollectEmailChange}
-                />
+                <TextField 
+                    label="Title"
+                    value={title}
+                    onChange={this.handleChange('title')} />
+                <TextField 
+                    label="Intro" 
+                    value={intro}
+                    multiline 
+                    onChange={this.handleChange('intro')} />
             </FormLayout>
             </Card>
         </Layout.AnnotatedSection>
 
         <Layout.AnnotatedSection
-            title="Intro"
+            title="First Slide"
             description="The first slide your customers will see."
         >
             <Card sectioned>
@@ -89,11 +93,21 @@ class GeneralForm extends React.Component {
         >
             <Card sectioned>
             <FormLayout>
+                <Checkbox
+                    checked={collectEmailChecked}
+                    label="Collect emails at the end of the quiz"
+                    onChange={this.handleCollectEmailChange}
+                />
                 <TextField 
                     label="Text"
                     value={shareParagraph}
                     multiline 
                     onChange={this.handleChange('shareParagraph')} />
+                <TextField 
+                    label="Sender's Email"
+                    value={resultEmail} 
+                    type="email"
+                    onChange={this.handleChange('resultEmail')} />
             </FormLayout>
             </Card>
         </Layout.AnnotatedSection>
