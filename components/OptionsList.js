@@ -13,8 +13,8 @@ import { ResourceList,
 class OptionsList extends React.Component {
 
   renderItem = (item) => {
-    const {title, paragraph, product} = item;
-    const media = <Avatar customer size="medium" name={title} />;
+    const {title, paragraph, defaultOption, product} = item;
+    const media = <Avatar size="medium" name={title} source={ product && product.image } />;
 
     return (
         <ResourceList.Item
