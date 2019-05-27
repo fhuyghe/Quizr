@@ -1,6 +1,8 @@
 import { Card,
     FormLayout,
-    TextField } from '@shopify/polaris';
+    TextField,
+    Checkbox 
+  } from '@shopify/polaris';
 
 class OptionsList extends React.Component {
   state = {
