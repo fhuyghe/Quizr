@@ -27,15 +27,16 @@ const emailsSchema = new Schema({
 
 //Result Options
 const resultOptionSchema = Schema({
-    title: String,
-    slug: String,
-    paragraph: String,
+    title: { type: String },
+    defaultOption: { type: Boolean },
+    slug: { type: String },
+    paragraph: { type: String },
     product: {
-      id: String,
-      title: String,
-      handle: String,
-      descriptionHtml: String,
-      image: String
+      id: { type: String },
+      title: { type: String },
+      handle: { type: String },
+      descriptionHtml: { type: String },
+      image: { type: String }
     }
   });
 

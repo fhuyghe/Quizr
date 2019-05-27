@@ -7,6 +7,7 @@ import { ResourceList,
     Page,
     Heading,
     TextContainer,
+    Badge
    } from '@shopify/polaris';
 
 class OptionsList extends React.Component {
@@ -21,10 +22,9 @@ class OptionsList extends React.Component {
           accessibilityLabel={`View details for ${title}`}
           onClick={() => Router.pushRoute('option', {slug: item._id})}
         >
-        <h3>
-            <TextStyle variation="strong">{title}</TextStyle>
-        </h3>
-        <div>{paragraph}</div>
+          <h4><TextStyle variation="strong">{title}</TextStyle></h4>
+          <div>{ paragraph }</div>
+          {defaultOption && <Badge>Default</Badge>}
         </ResourceList.Item>
     );
     }

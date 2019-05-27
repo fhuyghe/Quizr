@@ -5,13 +5,15 @@ import { Card,
 class OptionsList extends React.Component {
   state = {
     optionTitle: '',
-    optionParagraph: ''
+    optionParagraph: '',
+    defaultOption: false
   }
     
       render() {
-        const {openClose,
+        const {
           optionTitle,
-          optionParagraph
+          optionParagraph,
+          defaultOption
         } = this.state
 
         return (
@@ -27,6 +29,12 @@ class OptionsList extends React.Component {
                     multiline 
                     onChange={this.handleChange('optionParagraph')} />
               </FormLayout>
+              <Checkbox
+                checked={defaultOption}
+                label="Default option"
+                name="defaultOption"
+                onChange={this.handleChange}
+              />
           </Card>
         );
       }
