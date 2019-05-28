@@ -23,7 +23,8 @@ class Option extends React.Component {
     resourcePickerOpen: false,
     title: '',
     paragraph: '',
-    product: {}
+    product: {},
+    defaultOption: false
   }
 
   static async getInitialProps ({query}) {
@@ -47,7 +48,8 @@ class Option extends React.Component {
     const {
       title,
       paragraph,
-      newOption
+      newOption,
+      defaultOption
     } = this.state
 
     return <Page
