@@ -8,7 +8,8 @@ import { Layout,
   Card,
   PageActions,
   Subheading,
-  Heading
+  Heading,
+  Checkbox
 } from '@shopify/polaris';
 import ProductDisplay from '../components/productDisplay'
 import {Router} from '../routes'
@@ -77,6 +78,11 @@ class Option extends React.Component {
                       value={paragraph}
                       multiline 
                       onChange={this.handleChange('paragraph')} />
+                  <Checkbox
+                    checked={defaultOption}
+                    label="Default option"
+                    onChange={this.handleChange('defaultOption')}
+                  />
               </FormLayout>
             </Card>
           </Layout.Section>
