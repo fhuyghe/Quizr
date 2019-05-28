@@ -9,6 +9,8 @@ import {
     product(id: $id) {
         title
         handle
+        type
+        url
         descriptionHtml
         id
         images(first: 1) {
