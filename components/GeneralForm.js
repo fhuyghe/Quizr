@@ -41,9 +41,11 @@ class GeneralForm extends React.Component {
             shareParagraph,
             title, 
             intro,
-            resultEmail,
             thankYouTitle,
-            thankYouText
+            thankYouText,
+            resultEmail,
+            resultEmailName,
+            resultEmailTitle
         } = this.state;
 
     return (
