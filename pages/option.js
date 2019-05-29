@@ -52,6 +52,8 @@ class Option extends React.Component {
       defaultOption
     } = this.state
 
+    console.log('this.state.product: ', this.state.product)
+
     return <Page
     breadcrumbs={[{content: 'Options', url: '/options'}]}
     title='Option'
