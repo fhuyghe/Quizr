@@ -112,7 +112,15 @@ class GeneralForm extends React.Component {
                     label="Sender's Email"
                     value={resultEmail} 
                     type="email"
-                    onChange={this.handleChange('resultEmail')} />
+                                onChange={this.handleChange('resultEmail')} />
+                <TextField 
+                    label="Sender's Name"
+                    value={resultEmailName} 
+                    onChange={this.handleChange('resultEmailName')} />
+                <TextField 
+                    label="Email Title"
+                    value={resultEmailTitle}
+                    onChange={this.handleChange('resultEmailTitle')} />
             </FormLayout>
             </Card>
         </Layout.AnnotatedSection>

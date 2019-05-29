@@ -9,8 +9,6 @@ const loggerMiddleware = createLogger({
   collapsed: true
 })
 
-const serverUrl = APP_URL ? APP_URL : 'https://quizr.13milliseconds.com'
-
 const initialState = {
     isFetching: false,
     isLoaded: false,
@@ -118,7 +116,7 @@ export function getSettings(shop) {
       dispatch(requestSettings(shop))
       //dispatch(getThemes(shop, token))
   
-      return fetch( serverUrl + `/api/settings/${shop}`)
+      return fetch( APP_URL + `/api/settings/${shop}`)
         .then(
           response => response.json(),
           // Do not use catch
@@ -158,7 +156,7 @@ export function getSettings(shop) {
       dataToSave.shop = dataToSave.shop ? dataToSave.shop : shop
       dataToSave._id = dataToSave._id ? dataToSave._id : null
   
-      return fetch( serverUrl + `/api/settings`,
+      return fetch( APP_URL + `/api/settings`,
             {
                 method: 'PUT',
                 body: JSON.stringify(dataToSave),
@@ -208,7 +206,7 @@ export function getSettings(shop) {
       let dataToSave = data
       dataToSave.question.slug = slugify(dataToSave.question.question)
   
-      return fetch( serverUrl + `/api/settings/savequestion`,
+      return fetch( APP_URL + `/api/settings/savequestion`,
             {
               method: 'PUT',
               body: JSON.stringify(dataToSave),
@@ -302,7 +300,7 @@ export function getSettings(shop) {
       let dataToSave = data
       dataToSave.option.slug = slugify(dataToSave.option.title)
   
-      return fetch( serverUrl + `/api/settings/saveoption`,
+      return fetch( APP_URL + `/api/settings/saveoption`,
             {
               method: 'PUT',
               body: JSON.stringify(dataToSave),

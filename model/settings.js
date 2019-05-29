@@ -10,24 +10,12 @@ const settingsSchema = new Schema({
     required: true,
     dropDups: true
   },
-  introTitle: {
-    type: String
-  },
-  introParagraph: {
-    type: String
-  },
-  resultsTitle: {
-    type: String
-  },
-  resultsParagraph: {
-    type: String
-  },
-  shareParagraph: {
-    type: String
-  },
-  resultsTextAfter: {
-    type: String
-  },
+  introTitle: {type: String},
+  introParagraph: {type: String},
+  resultsTitle: {type: String},
+  resultsParagraph: {type: String},
+  shareParagraph: {type: String},
+  resultsTextAfter: {type: String},
   resultOptions: [{
     type: Schema.Types.ObjectId,
     ref: 'ResultOption'
@@ -36,22 +24,13 @@ const settingsSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Question'
   }],
-  resultEmail: {
-    type: String
-  },
-  thankYouTitle: {
-    type: String
-  },
-  thankYouText: {
-    type: String
-  },
-  title: {
-    type: String
-  },
-  intro: {
-    type: String
-  },
-
+  resultEmail: {type: String},
+  resultEmailName: {type: String},
+  resultEmailTitle: {type: String},
+  thankYouTitle: {type: String},
+  thankYouText: { type: String },
+  title: {type: String},
+  intro: {type: String}
 });
 
 // Collected Emails
@@ -62,9 +41,7 @@ const emailsSchema = new Schema({
     required: true,
     dropDups: true
   },
-  emails: [{
-    type: String
-  }]
+  emails: [{type: String}]
 });
 
 //Result Options
