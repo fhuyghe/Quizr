@@ -10,7 +10,7 @@ import {
         title
         handle
         type
-        url
+        onlineStoreUrl
         descriptionHtml
         id
         images(first: 1) {
