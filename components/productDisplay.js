@@ -9,7 +9,7 @@ import {
     product(id: $id) {
         title
         handle
-        type
+        productType
         onlineStoreUrl
         descriptionHtml
         id
