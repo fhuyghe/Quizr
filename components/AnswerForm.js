@@ -3,7 +3,7 @@ import {
   TextField,
   Autocomplete,
   Stack, 
-  Tag,
+  Badge,
   TextContainer,
   Card
 } from '@shopify/polaris';
@@ -55,33 +55,37 @@ class AnswerForm extends React.Component {
               onAction: () => this.props.higherAnswer(index)},
           ]}
         >
-        <FormLayout>
-          <TextField 
-            label="Text" 
-            value={text} 
-            onChange={(value) => this.props.handleAnswerChange('text', value, this.props.index)} />
-
-          <TextContainer>
-            <Stack>{this.renderTags('positive')}</Stack>
-          </TextContainer>
-          <Autocomplete
-            allowMultiple
-            options={this.state.positiveOptions}
-            selected={this.state.positiveSelected}
-            textField={PositiveTextField}
-            onSelect={(selected) => this.updateSelection('positive', selected)}
-          />
-
-          <TextContainer>
-            <Stack>{this.renderTags('negative')}</Stack>
-          </TextContainer>
-          <Autocomplete
-            allowMultiple
-            options={this.state.negativeOptions}
-            selected={this.state.negativeSelected}
-            textField={NegativeTextField}
-            onSelect={(selected) => this.updateSelection('negative', selected)}
-          />
+          <FormLayout>
+            <TextField 
+              label="Text" 
+              value={text} 
+              onChange={(value) => this.props.handleAnswerChange('text', value, this.props.index)} />
+          </FormLayout>
+          
+          <FormLayout>
+            <Autocomplete
+              allowMultiple
+              options={this.state.positiveOptions}
+              selected={this.state.positiveSelected}
+              textField={PositiveTextField}
+              onSelect={(selected) => this.updateSelection('positive', selected)}
+              />
+              <TextContainer>
+              <Stack>{this.renderTags('positive')}</Stack>
+            </TextContainer>
+          </FormLayout>
+            
+          <FormLayout>
+            <Autocomplete
+              allowMultiple
+              options={this.state.negativeOptions}
+              selected={this.state.negativeSelected}
+              textField={NegativeTextField}
+              onSelect={(selected) => this.updateSelection('negative', selected)}
+              />
+              <TextContainer>
+              <Stack>{this.renderTags('negative')}</Stack>
+            </TextContainer>
         </FormLayout>
         </Card>
       );
@@ -146,9 +150,12 @@ class AnswerForm extends React.Component {
     renderTags = (type) => {
       return this.props[type].map((option, index) => {
         return (
-          <Tag key={'option' + option.value} onRemove={() => this.props.removeTag(this.props.index, type, index)}>
-            {option.label || option.title}
-          </Tag>
+          <Badge
+            status={type == 'positive' ? 'success' : 'warning'}
+            key={'option' + option.value}
+            onClick={() => this.props.removeTag(this.props.index, type, index)}>
+              {option.label || option.title}
+          </Badge>
         );
       });
     };
