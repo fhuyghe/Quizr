@@ -261,15 +261,12 @@ export function getSettings(shop) {
   
       dispatch(tryDeletingQuestion())
 
-      let dataToSave = data._id
+      let dataToDelete = data._id
   
       return fetch( APP_URL + `/api/settings/deletequestion`,
             {
               method: 'PUT',
-              body: JSON.stringify(dataToSave),
-              headers: {
-                  'Content-Type': 'application/json'
-              }
+              body: JSON.stringify(dataToDelete)
             })
         .then(
           response => response.json(),
