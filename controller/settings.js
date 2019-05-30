@@ -123,7 +123,7 @@ class SettingsControllers {
             const data = ctx.request.body;
 
             if (data) {
-                ctx.body = await Question.deleteOne({_id: data});
+                ctx.body = await Question.deleteOne({_id: data._id});
             } 
         } catch (err) {
           ctx.throw(422);
