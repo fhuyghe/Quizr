@@ -8,6 +8,7 @@ import { Layout,
   PageActions,
   Subheading,
   Heading,
+  deleteQuestion
 } from '@shopify/polaris';
 import {Router} from '../routes'
 import AnswerForm from '../components/AnswerForm.js'
@@ -232,7 +233,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = { getSettings, saveQuestion }
+const mapDispatchToProps = { getSettings, saveQuestion, deleteQuestion }
 
 const connectedQuestion = connect(mapStateToProps, mapDispatchToProps)(Question)
 

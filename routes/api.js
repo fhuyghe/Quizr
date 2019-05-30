@@ -15,6 +15,7 @@ module.exports = function(router){
 
     //Questions
     router.put('/api/settings/savequestion', SettingsControllers.saveQuestion);
+    router.put('/api/settings/deletequestion', SettingsControllers.deleteQuestion);
 
     return router
 

@@ -66,6 +66,7 @@ const questionSchema = Schema({
   text: String,
   answers: [{
     text: String,
+    ratio: Number,
     positive: [{
       type: Schema.Types.ObjectId,
       ref: 'ResultOption'

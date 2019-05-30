@@ -36,6 +36,9 @@ export const actionTypes = {
   SAVE_QUESTION: 'SAVE_QUESTION',
   TRY_SAVING_QUESTION: 'TRY_SAVING_QUESTION',
   SUCCESS_SAVING_QUESTION: 'SUCCESS_SAVING_QUESTION',
+  DELETE_QUESTION: 'DELETE_QUESTION',
+  TRY_DELETING_QUESTION: 'TRY_DELETING_QUESTION',
+  SUCCESS_DELETING_QUESTION: 'SUCCESS_DELETING_QUESTION',
   SAVE_OPTION: 'SAVE_OPTION',
   TRY_SAVING_OPTION: 'TRY_SAVING_OPTION',
   SUCCESS_SAVING_OPTION: 'SUCCESS_SAVING_OPTION',
@@ -64,8 +67,12 @@ export const reducer = (state = initialState, action) => {
             return newState
 
         case actionTypes.SUCCESS_SAVING_QUESTION:
-            newState.settings = action.settings
-            return newState
+          newState.settings = action.settings
+          return newState
+      
+        case actionTypes.SUCCESS_DELETING_QUESTION:
+          newState.settings = action.settings
+          return newState
 
         case actionTypes.SUCCESS_SAVING_OPTION:
             newState.settings = action.settings
@@ -220,6 +227,56 @@ export function getSettings(shop) {
           error => console.log('An error occurred.', error)
         )
         .then(json => dispatch(successSavingQuestion(dataToSave))
+        )
+    }
+  }
+
+  // DELETE QUESTION
+
+  export const tryDeletingQuestion = () => {
+    return { 
+          type: actionTypes.TRY_DELETING_QUESTION,
+          isDeleting: true
+      }
+  }
+
+  export const successDeletingQuestion = (data) => {
+    return function(dispatch, getState) {
+
+      // Save the new question in current settings
+      let {settings} = Object.assign({}, getState());
+      let foundIndex = settings.questions.findIndex(x => x._id == data);
+      settings.splice(foundIndex, 1);
+
+      dispatch({ 
+        type: actionTypes.SUCCESS_DELETING_QUESTION,
+        settings,
+        isDeleting: false
+      })
+    }
+  }
+
+  export function deleteQuestion(data) {
+    return (dispatch) => {
+  
+      dispatch(tryDeletingQuestion())
+
+      let dataToSave = data._id
+  
+      return fetch( APP_URL + `/api/settings/deletequestion`,
+            {
+              method: 'PUT',
+              body: JSON.stringify(dataToSave),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+            })
+        .then(
+          response => response.json(),
+          // Do not use catch
+          error => console.log('An error occurred.', error)
+        )
+        .then(json => dispatch(successDeletingQuestion(dataToSave))
         )
     }
   }

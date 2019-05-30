@@ -114,6 +114,21 @@ class SettingsControllers {
           ctx.throw(422);
         }
     }
+
+    //Save Question
+    async deleteQuestion(ctx) {
+        console.log('Deleting Question')
+
+        try {
+            const data = ctx.request.body;
+
+            if (data) {
+                ctx.body = await Question.deleteOne({_id: data});
+            } 
+        } catch (err) {
+          ctx.throw(422);
+        }
+    }
 }
 
 module.exports = new SettingsControllers();
