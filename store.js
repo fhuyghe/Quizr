@@ -245,7 +245,7 @@ export function getSettings(shop) {
 
       // Save the new question in current settings
       let {settings} = Object.assign({}, getState());
-      let foundIndex = settings.questions.findIndex(x => x._id == data);
+      let foundIndex = settings.questions.findIndex(x => x._id == data._id);
       settings.splice(foundIndex, 1);
 
       dispatch({ 
@@ -274,7 +274,7 @@ export function getSettings(shop) {
           // Do not use catch
           error => console.log('An error occurred.', error)
         )
-        .then(json => dispatch(successDeletingQuestion(dataToSave))
+        .then(json => dispatch(successDeletingQuestion(data))
         )
     }
   }
