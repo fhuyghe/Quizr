@@ -7,13 +7,12 @@ import { Layout,
   Button,
   PageActions,
   Subheading,
-  Heading,
-  deleteQuestion
+  Heading
 } from '@shopify/polaris';
 import {Router} from '../routes'
 import AnswerForm from '../components/AnswerForm.js'
 import { connect } from 'react-redux'
-import { getSettings, saveQuestion } from '../store'
+import { getSettings, saveQuestion, deleteQuestion } from '../store'
 
 class Question extends React.Component {
 
