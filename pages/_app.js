@@ -10,6 +10,7 @@ import { ApolloProvider } from 'react-apollo';
 //Redux
 import { Provider } from 'react-redux'
 import withReduxStore from '../lib/with-redux-store'
+import AppMenu from '../components/AppMenu'
 
 global.fetch = require('node-fetch');
 
@@ -44,7 +45,9 @@ class QuizrApp extends App {
           forceRedirect >
           <ApolloProvider client={client}>
             <Provider store={reduxStore}>
-              <Component {...pageProps} />
+              <AppMenu>
+                <Component {...pageProps} />
+              </AppMenu>
             </Provider>
           </ApolloProvider>
         </AppProvider>

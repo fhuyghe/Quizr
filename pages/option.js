@@ -103,7 +103,8 @@ class Option extends React.Component {
                   showVariants={false}
                   resourceType="Product"
                   open={this.state.resourcePickerOpen}
-                  onSelection={({selection}) => {
+              onSelection={({ selection }) => {
+                    console.log(selection)
                     this.setState({product: selection[0]});
                     this.setState({resourcePickerOpen: false});
                   }}
@@ -157,12 +158,17 @@ class Option extends React.Component {
   }
 
   saveOption = (option) => {
-    const dataToSave =  {option: option}
-    dataToSave.option.product = option.product 
-      ? option.product 
-      : null
-    dataToSave.option.product.image = option.product.images && option.product.images[0].originalSrc
+    const dataToSave = { option: option }
+    
+    if (option.product) { 
+      dataToSave.option.product = option.product 
+      dataToSave.option.product.image = option.product.images && option.product.images[0].originalSrc
+      dataToSave.option.product.secondaryImage = option.product.images && option.product.images[1].originalSrc
+    }
+    
     dataToSave.settings = this.props.settings
+
+    console.log('dataToSave: ', dataToSave)
 
     this.props.saveOption(dataToSave)
 }

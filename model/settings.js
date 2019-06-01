@@ -56,7 +56,8 @@ const resultOptionSchema = Schema({
     handle: { type: String },
     productType: { type: String },
     descriptionHtml: { type: String },
-    image: { type: String }
+    image: { type: String },
+    secondaryImage: { type: String }
   }
 });
 
