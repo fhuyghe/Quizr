@@ -12,10 +12,18 @@ const settingsSchema = new Schema({
   },
   introTitle: {type: String},
   introParagraph: {type: String},
-  resultsTitle: {type: String},
-  resultsParagraph: {type: String},
-  shareParagraph: {type: String},
-  resultsTextAfter: {type: String},
+  resultsTitle: {
+    type: String
+  },
+  resultsParagraph: {
+    type: String
+  },
+  shareParagraph: {
+    type: String
+  },
+  resultsTextAfter: {
+    type: String
+  },
   resultOptions: [{
     type: Schema.Types.ObjectId,
     ref: 'ResultOption'
@@ -27,8 +35,6 @@ const settingsSchema = new Schema({
   resultEmail: {type: String},
   resultEmailName: {type: String},
   resultEmailTitle: {type: String},
-  thankYouTitle: {type: String},
-  thankYouText: { type: String },
   title: {type: String},
   intro: {type: String}
 });
@@ -41,7 +47,9 @@ const emailsSchema = new Schema({
     required: true,
     dropDups: true
   },
-  emails: [{type: String}]
+  emails: [{
+    type: String
+  }]
 });
 
 //Result Options
@@ -56,8 +64,7 @@ const resultOptionSchema = Schema({
     handle: { type: String },
     productType: { type: String },
     descriptionHtml: { type: String },
-    image: { type: String },
-    secondaryImage: { type: String }
+    image: { type: String }
   }
 });
 
@@ -67,7 +74,6 @@ const questionSchema = Schema({
   text: String,
   answers: [{
     text: String,
-    ratio: Number,
     positive: [{
       type: Schema.Types.ObjectId,
       ref: 'ResultOption'

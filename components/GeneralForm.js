@@ -41,8 +41,6 @@ class GeneralForm extends React.Component {
             shareParagraph,
             title, 
             intro,
-            thankYouTitle,
-            thankYouText,
             resultEmail,
             resultEmailName,
             resultEmailTitle
@@ -147,25 +145,6 @@ class GeneralForm extends React.Component {
                     value={resultsTextAfter}
                     multiline 
                     onChange={this.handleChange('resultsTextAfter')} />
-            </FormLayout>
-            </Card>
-        </Layout.AnnotatedSection>
-
-        <Layout.AnnotatedSection
-            title="Thank you Page"
-            description="The text users will see after their share their results by email."
-        >
-            <Card sectioned>
-            <FormLayout>
-                <TextField 
-                    label="Thank you title"
-                    value={thankYouTitle}
-                    onChange={this.handleChange('thankYouTitle')} />
-                <TextField 
-                    label="Thank you text"
-                    value={thankYouText} 
-                    multiline
-                    onChange={this.handleChange('thankYouText')} />
             </FormLayout>
             </Card>
         </Layout.AnnotatedSection>

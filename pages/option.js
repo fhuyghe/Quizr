@@ -168,8 +168,6 @@ class Option extends React.Component {
     
     dataToSave.settings = this.props.settings
 
-    console.log('dataToSave: ', dataToSave)
-
     this.props.saveOption(dataToSave)
 }
 }
