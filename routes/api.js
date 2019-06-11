@@ -1,4 +1,6 @@
 const SettingsControllers = require('../controller/settings');
+const CouponsControllers = require('../controller/coupons');
+const ShopifyControllers = require('../controller/shopify');
 const ProcessPayment = require('../controller/processPayment');
 
 module.exports = function(router){
@@ -16,6 +18,15 @@ module.exports = function(router){
     //Questions
     router.put('/api/settings/savequestion', SettingsControllers.saveQuestion);
     router.put('/api/settings/deletequestion', SettingsControllers.deleteQuestion);
+
+    //Coupons
+    router.get('/api/coupons/:shop', CouponsControllers.find);
+    router.put('/api/coupons', CouponsControllers.save);
+    router.put('/api/coupons/delete', CouponsControllers.delete);
+
+    //Shopify
+    router.get('/api/shopify/', ShopifyControllers.get)
+    router.post('/api/shopify/', ShopifyControllers.post)
 
     return router
 

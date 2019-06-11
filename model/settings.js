@@ -10,6 +10,7 @@ const settingsSchema = new Schema({
     required: true,
     dropDups: true
   },
+  accessToken: {type: String}, 
   introTitle: {type: String},
   introParagraph: {type: String},
   resultsTitle: {

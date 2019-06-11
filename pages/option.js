@@ -52,7 +52,6 @@ class Option extends React.Component {
       defaultOption
     } = this.state
 
-    console.log('this.state.product: ', this.state.product)
 
     return <Page
     breadcrumbs={[{content: 'Options', url: '/options'}]}
@@ -104,7 +103,6 @@ class Option extends React.Component {
                   resourceType="Product"
                   open={this.state.resourcePickerOpen}
               onSelection={({ selection }) => {
-                    console.log(selection)
                     this.setState({product: selection[0]});
                     this.setState({resourcePickerOpen: false});
                   }}

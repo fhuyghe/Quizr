@@ -42,7 +42,6 @@ import {
             if (res.loading) return <div>Loading…</div>;
             if (res.error) return <div>{res.error.message}</div>;
             const product = res.data.product
-            console.log(product)
             
             return (
             <Card sectioned>

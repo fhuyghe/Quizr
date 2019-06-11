@@ -19,9 +19,8 @@ class QuestionsList extends React.Component {
           const last = index == questions.length - 1
 
           return <Card 
-              key={question._id}
-              title={question.question}
-              onClick={() => Router.pushRoute('question', {slug: question._id})}
+            key={question._id}
+            title={question.question}
               actions={[
                 { content: '▼',
                   disabled: last,  
@@ -33,7 +32,7 @@ class QuestionsList extends React.Component {
                     onAction: () => Router.pushRoute('question', {slug: question._id})
                   }
                 ]}
-                >
+          >
               <p>{question.text}</p>
               <Stack wrap={false}>
                 { question.answers && question.answers.map((answer, index) => {

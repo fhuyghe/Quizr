@@ -4,6 +4,7 @@ var bodyParser = require('koa-bodyparser');
 const next = require('next');
 const routes = require('./routes')
 const mongoose = require('mongoose');
+const {Settings} = require('./model/settings')
 const { default: createShopifyAuth } = require('@shopify/koa-shopify-auth');
 const dotenv = require('dotenv');
 const { verifyRequest } = require('@shopify/koa-shopify-auth');
@@ -19,14 +20,13 @@ const app = next({ dev });
 const handle = routes.getRequestHandler(app)
 
 //Mongoose
-mongoose.connect(process.env.MONGODB_URI);
-    var db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', function(){
-});
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function(){});
 mongoose.set('useCreateIndex', true);
 
-const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, TUNNEL_URL } = process.env;
+const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, APP_URL, API_VERSION } = process.env;
 
 app.prepare().then(() => {
     const server = new Koa();
@@ -42,11 +42,12 @@ app.prepare().then(() => {
         apiKey: SHOPIFY_API_KEY,
         secret: SHOPIFY_API_SECRET_KEY,
         scopes: [
-            'read_products', 
-            'unauthenticated_read_product_listings', 
+            'read_products',
             'read_themes', 
             'write_themes',
-            'write_content'
+            'write_content',
+            'read_price_rules',
+            'write_price_rules'
         ],
 
         async afterAuth(ctx) {
@@ -54,15 +55,7 @@ app.prepare().then(() => {
             const { shop, accessToken } = ctx.session;
             ctx.cookies.set('shopOrigin', shop, { httpOnly: false })
 
-            const stringifiedBillingParams = JSON.stringify({
-                recurring_application_charge: {
-                name: 'Quizr',
-                price: 0.00,
-                trial_days: 30,
-                return_url: TUNNEL_URL,
-                test: true
-                }
-            })
+            Settings.updateOne({ shop: shop }, { shop: shop, accessToken: accessToken }, { upsert: true }, function (err) { console.log(err) });
 
             // Add the Quiz page in the theme
             const themesOptions = {
@@ -91,13 +84,21 @@ app.prepare().then(() => {
                 .then((jsonData) => {
                     const mainTheme =  jsonData.themes.filter(theme => theme.role == "main")[0]
 
-                    return fetch(`https://${shop}/admin/api/2019-04/themes/${mainTheme.id}/assets.json`, templateOptions).then((json) => {
+                    return fetch(`https://${shop}/admin/api/${API_VERSION}/themes/${mainTheme.id}/assets.json`, templateOptions).then((json) => {
                         return json
                     })
                 })
                 .catch((error) => console.log('error', error));
-            console.log('Setup: ', setupApp)
-
+            
+            const stringifiedBillingParams = JSON.stringify({
+                recurring_application_charge: {
+                name: 'Quizr',
+                price: 9.00,
+                trial_days: 30,
+                return_url: APP_URL,
+                test: true
+                }
+            })
 
             const options = {
                 method: 'POST',
@@ -110,9 +111,12 @@ app.prepare().then(() => {
                 };
  
             const confirmationURL = await fetch(
-                `https://${shop}/admin/recurring_application_charges.json`, options)
+                `https://${shop}/admin/api/${API_VERSION}/recurring_application_charges.json`, options)
                 .then((response) => response.json())
-                .then((jsonData) => jsonData.recurring_application_charge.confirmation_url)
+                .then((jsonData) => {
+                    console.log(jsonData)
+                    return jsonData.recurring_application_charge.confirmation_url
+                })
                 .catch((error) => console.log('error', error));
 
                 ctx.redirect(confirmationURL);

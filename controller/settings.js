@@ -31,6 +31,7 @@ class SettingsControllers {
                 ctx.body = {shop: null}
             }
         } catch (err) {
+            console.log('Error', err)
         ctx.throw(422);
       }
     }
@@ -39,7 +40,6 @@ class SettingsControllers {
     async save(ctx) {
         try {
             const data = ctx.request.body;
-            console.log(data)
 
             if (data._id) {
                 console.log('Updating')
@@ -69,7 +69,6 @@ class SettingsControllers {
             } else {
                 console.log('New option')
                 const resultOption = await new ResultOption(option).save(function(err, doc){
-                    console.log(doc, data.settings)
                     if (!err){
                         Settings.findOne({ _id: data.settings._id }, function (err, settings) {
                             console.log('Found the settings');
@@ -105,7 +104,6 @@ class SettingsControllers {
                             settings.questions.push(doc)
                             settings.save()
                         });
-                        console.log(doc)
                         ctx.body = doc;
                     }
                 });

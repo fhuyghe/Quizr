@@ -16,15 +16,20 @@ class AppContainer extends React.Component {
         {
           onClick: () => Router.pushRoute('/options'),
           label: 'Options',
-          icon: 'orders',
+          icon: 'duplicate',
         },
         {
           onClick: () => Router.pushRoute('/questions'),
           label: 'Questions',
-          icon: 'products',
-        },
+          icon: 'help',
+          },
+          {
+            onClick: () => Router.pushRoute('/coupons'),
+            label: 'Coupons',
+            icon: 'notes',
+          }
       ]}
-    />
+      />
     <Navigation.Section
       items={[
         {
@@ -40,7 +45,7 @@ class AppContainer extends React.Component {
         {
           onClick: () => Router.pushRoute('/stats'),
           label: 'Stats',
-          icon: 'onlineStore',
+          icon: 'search',
         },
       ]}
       separator

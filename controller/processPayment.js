@@ -1,4 +1,5 @@
-async function processPayment (ctx, next) {
+async function processPayment(ctx, next) {
+  console.log('processing payment')
     if (ctx.query.charge_id) {
         const chargeUrl = 'admin/recurring_application_charges';
         const options = {
@@ -9,7 +10,7 @@ async function processPayment (ctx, next) {
             },
         };
         const optionsWithGet = { ...options, method: 'GET' };
-       const optionsWithPost = { ...options, method: 'POST' };
+        const optionsWithPost = { ...options, method: 'POST' };
         fetch(`https://${ctx.session.shop}/admin/${chargeUrl}/${ctx.query.charge_id}.json`, optionsWithGet)
             .then((response) => response.json())
             .then((myJson) => {

@@ -25,7 +25,6 @@ class GeneralForm extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('NEXTPROPS', nextProps)
         if (nextProps !== this.props ) this.setState({...nextProps})
     }
 
@@ -137,7 +136,7 @@ class GeneralForm extends React.Component {
                     onChange={this.handleChange('resultsTitle')} />
                 <TextField 
                     label="Paragraph" 
-                    value={resultsParagraph}
+                    value={resultsParagraph.replace(/<br\s*[\/]?>/gi, '\n')}
                     multiline 
                     onChange={this.handleChange('resultsParagraph')} />
                 <TextField 
@@ -161,7 +160,11 @@ class GeneralForm extends React.Component {
       };
 
     handleChange = (field) => {
-        return (value) => this.setState({[field]: value});
+        return (value) => {
+            var formattedString = value.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+            this.setState({ [field]: formattedString }
+            )
+        };
       };
 }
 

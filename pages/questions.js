@@ -44,8 +44,7 @@ class Questions extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isLoaded: state.isLoaded,
-    settings: state.settings,
-    questions: state.settings.questions
+    settings: state.settings
   }
 }
 

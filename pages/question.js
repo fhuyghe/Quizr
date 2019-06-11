@@ -7,7 +7,8 @@ import { Layout,
   Button,
   PageActions,
   Subheading,
-  Heading
+  Heading,
+  Spinner
 } from '@shopify/polaris';
 import {Router} from '../routes'
 import AnswerForm from '../components/AnswerForm.js'
@@ -51,6 +52,8 @@ class Question extends React.Component {
       answers,
       newQuestion
     } = this.state
+
+    const {isDeleting} = this.props
 
     const options = this.props.settings.resultOptions && this.props.settings.resultOptions.map((option) => {
       return {value: option._id, _id: option._id , label: option.title}
@@ -125,8 +128,8 @@ class Question extends React.Component {
                     onAction: () => Router.pushRoute('questions')
                   },
                   {
-                    content: 'Delete',
-                    onAction: () => this.props.deleteQuestion(this.state),
+                    content: isDeleting ? <Spinner size="small" color="teal" /> : "Delete",
+                    onAction: () => this.deleteQuestion(),
                     disabled: newQuestion
                   },
                 ]}
@@ -221,6 +224,13 @@ class Question extends React.Component {
 
     this.props.saveQuestion(dataToSave);
   }
+
+  deleteQuestion = () => { 
+    this.props.deleteQuestion(this.state)
+    setTimeout(() => { 
+      Router.pushRoute('questions')
+    }, 1000)
+  }
  
 }
 
@@ -228,7 +238,8 @@ class Question extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isLoaded: state.isLoaded,
-    settings: state.settings
+    settings: state.settings,
+    isDeleting: state.isDeleting
   }
 }
 
