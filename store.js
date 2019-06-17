@@ -43,6 +43,8 @@ export const actionTypes = {
   SUCCESS_SAVING_COUPONS: 'SUCCESS_SAVING_COUPONS',
   DELETE_COUPONS: 'DELETE_COUPONS',
   GET_PRICE_RULE: 'GET_PRICE_RULE',
+  TRY_PAUSING_COUPONS: 'TRY_PAUSING_COUPONS',
+  SUCCESS_PAUSING_COUPONS: 'SUCCESS_PAUSING_COUPONS',
 
   SAVE_QUESTION: 'SAVE_QUESTION',
   TRY_SAVING_QUESTION: 'TRY_SAVING_QUESTION',
@@ -105,6 +107,14 @@ export const reducer = (state = initialState, action) => {
       case actionTypes.SUCCESS_SAVING_COUPONS:
         newState.isSaving = action.isSaving
         newState.coupons = action.coupons
+        return newState
+      
+      case actionTypes.TRY_PAUSING_COUPONS:
+        newState.isPausing = action.isPausing
+        return newState
+      
+      case actionTypes.SUCCESS_PAUSING_COUPONS:
+        newState.isPausing = action.isPausing
         return newState
       
       case actionTypes.GET_PRICE_RULE:
@@ -630,6 +640,48 @@ export const createDiscountCodes = (couponsData, priceRule, qty) => {
         )
         .then(json => dispatch(successSavingCoupons(json))
         )
+    }
+  }
+  
+
+  export function pauseCoupons() {
+    return (dispatch, getState) => {
+      const { coupons } = getState()
+      coupons.discountPaused = !coupons.discountPaused
+      
+      console.log('Pausing')
+      dispatch(tryPausingCoupons())
+
+      return fetch( APP_URL + `/api/coupons`,
+            {
+                method: 'PUT',
+                body: JSON.stringify(coupons),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        .then(
+          response => response.json(),
+          // Do not use catch
+          error => console.log('An error occurred.', error)
+        )
+        .then(json => dispatch(successPausingCoupons(json))
+        )
+    }
+  }
+
+  export const tryPausingCoupons = (coupons) => {
+    return { 
+        type: actionTypes.TRY_PAUSING_COUPONS,
+        isPausing: true
+    }
+  }
+
+  export const successPausingCoupons = (coupons) => {
+    return { 
+        type: actionTypes.SUCCESS_PAUSING_COUPONS,
+        coupons,
+        isPausing: false
     }
   }
 

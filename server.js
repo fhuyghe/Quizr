@@ -93,10 +93,9 @@ app.prepare().then(() => {
             const stringifiedBillingParams = JSON.stringify({
                 recurring_application_charge: {
                 name: 'Quizr',
-                price: 9.00,
+                price: 1.00,
                 trial_days: 30,
-                return_url: APP_URL,
-                test: true
+                return_url: APP_URL
                 }
             })
 

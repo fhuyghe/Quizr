@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import CouponForm from '../components/CouponForm';
-import { getCoupons, saveCouponsProcess, deleteCoupons } from '../store'
+import { getCoupons, saveCouponsProcess, deleteCoupons, pauseCoupons } from '../store'
 import { Loading } from '@shopify/polaris';
 
 
@@ -20,7 +20,12 @@ class Coupons extends React.Component {
     render() {
         return <div>
             {this.props.isLoaded
-                ? <CouponForm {...this.props.coupons} save={this.save} delete={this.delete} isSaving={this.props.isSaving}/>
+                ? <CouponForm {...this.props.coupons}
+                    save={this.save}
+                    pause={this.props.pauseCoupons}
+                    delete={this.delete}
+                    isSaving={this.props.isSaving}
+                    isPausing={this.props.isPausing} />
                 : <Loading />
             }
       </div>
@@ -41,10 +46,11 @@ const mapStateToProps = (state) => {
         isSaving: state.isSaving,
         isLoaded: state.isLoaded,
         settings: state.settings,
-        coupons: state.coupons
+        coupons: state.coupons,
+        isPausing: state.isPausing
     }
 }
-const mapDispatchToProps = { getCoupons, saveCouponsProcess, deleteCoupons }
+const mapDispatchToProps = { getCoupons, saveCouponsProcess, deleteCoupons, pauseCoupons }
 
 const connectedCoupons = connect(mapStateToProps, mapDispatchToProps)(Coupons)
 

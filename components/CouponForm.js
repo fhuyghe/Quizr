@@ -52,7 +52,8 @@ class CouponForm extends React.Component {
             year,
             discountCodes,
             discountCodesSent,
-            isSaving
+            isSaving,
+            isPausing
         } = this.state;
 
         const discountCreated = this.state._id
@@ -156,7 +157,7 @@ class CouponForm extends React.Component {
                     <Card sectioned>
                         <ButtonGroup>
                             {!discountCreated && <Button primary onClick={this.save}>{isSaving ? <Spinner size="small" color="teal" /> : "Create Campaign"}</Button>}
-                            {discountCreated && <Button primary onClick={this.pauseToggle}>{discountPaused ? 'Resume' : 'Pause'}</Button>}
+                            {discountCreated && <Button primary onClick={this.pauseToggle}>{isPausing ? <Spinner size="small" color="teal" /> : discountPaused ? 'Resume' : 'Pause'}</Button>}
                             {discountCreated && <Button destructive onClick={this.delete}>Delete</Button>}
                             {discountCreated && 
                                 <TextContainer>
@@ -189,9 +190,7 @@ class CouponForm extends React.Component {
     }
 
     pauseToggle = () => { 
-        this.setState({
-            discountPaused: !this.state.discountPaused
-        })
+        this.props.pause()
     }
 
     delete = () => { 
