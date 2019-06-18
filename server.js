@@ -95,7 +95,8 @@ app.prepare().then(() => {
                 name: 'Quizr',
                 price: 1.00,
                 trial_days: 30,
-                return_url: APP_URL
+                return_url: APP_URL,
+                test: true
                 }
             })
 
