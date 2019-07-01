@@ -14,7 +14,7 @@
 {{ 'iframeResizer.min.js' | asset_url | script_tag }}
 
 <div class="quizrWrap">
-	<iframe class="quizr" src="https://quizr.13milliseconds.com/?shop={{ shop.permanent_domain }}&domain={{ shop.domain }}" frameborder="0" onload="resizeIframe(this)"></iframe>
+	<iframe class="quizr" src="https://quizr.13milliseconds.com/{{ shop.permanent_domain | remove: '.myshopify.com' }}" frameborder="0" onload="resizeIframe(this)"></iframe>
 </div>
 <script>iFrameResize({log:false})</script>
 
