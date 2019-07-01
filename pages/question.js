@@ -8,7 +8,9 @@ import { Layout,
   PageActions,
   Subheading,
   Heading,
-  Spinner
+  Spinner,
+  Checkbox,
+  Select
 } from '@shopify/polaris';
 import {Router} from '../routes'
 import AnswerForm from '../components/AnswerForm.js'
@@ -49,11 +51,21 @@ class Question extends React.Component {
     const {
       question,
       text,
+      ordered,
+      answerNumber,
       answers,
       newQuestion
     } = this.state
 
-    const {isDeleting} = this.props
+    const { isDeleting } = this.props
+    
+    const answerNumberOptions = [
+      {label: '1', value: 1},
+      {label: '2', value: 2},
+      {label: '3', value: 3},
+      {label: '5', value: 5},
+      {label: 'No maximum', value: -1},
+    ];
 
     const options = this.props.settings.resultOptions && this.props.settings.resultOptions.map((option) => {
       return {value: option._id, _id: option._id , label: option.title}
@@ -78,15 +90,26 @@ class Question extends React.Component {
             <Card sectioned>
               <Subheading>Question</Subheading>
               <FormLayout>
-                  <TextField 
-                      label="Question" 
-                      value={question} 
-                      onChange={this.handleChange('question')} />
-                  <TextField 
-                      label="Text" 
-                      value={text} 
-                      multiline
-                      onChange={this.handleChange('text')} />
+                <TextField 
+                  label="Question" 
+                  value={question} 
+                  onChange={this.handleChange('question')} />
+                <TextField 
+                  label="Text" 
+                  value={text} 
+                  multiline
+                  onChange={this.handleChange('text')} />
+                <Select
+                  label="Maximum answers"
+                  options={answerNumberOptions}
+                  value={answerNumber}
+                onChange={this.handleChange('answerNumber')} />
+              {answerNumber != 1 &&
+                <Checkbox
+                  checked={ordered}
+                  label="Order the user's answers"
+                  onChange={this.handleChange('ordered')} />
+              }
               </FormLayout>
             </Card>
           </Layout.Section>

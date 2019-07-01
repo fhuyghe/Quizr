@@ -73,6 +73,11 @@ const resultOptionSchema = Schema({
 const questionSchema = Schema({
   question: String,
   text: String,
+  answerNumber: {
+    type: Number, 
+    default: 1
+  },
+  ordered: Boolean,
   answers: [{
     text: String,
     positive: [{

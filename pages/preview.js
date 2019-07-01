@@ -23,7 +23,7 @@ class QuizPreview extends React.Component {
       <Page title='Preview' >
       <Layout>
       <div className="quizrWrap">
-        <iframe src={"https://quizr.13milliseconds.com/?shop=" + this.props.settings.shop} frameborder="0" onload="resizeIframe(this)"></iframe>
+        <iframe src={"https://quizr.13milliseconds.com/" + this.props.settings.shop.replace('.myshopify.com', '')} frameborder="0" onload="resizeIframe(this)"></iframe>
       </div>
       </Layout>
     </Page>
