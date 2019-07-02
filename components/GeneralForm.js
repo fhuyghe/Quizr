@@ -4,7 +4,8 @@ import { Layout,
     Checkbox,
     Page, 
     TextField
-    } from '@shopify/polaris';
+} from '@shopify/polaris';
+import DomainDisplay from './DomainDisplay'
 
 
 class GeneralForm extends React.Component {
@@ -17,7 +18,8 @@ class GeneralForm extends React.Component {
         resultsTextAfter: '',
         introTitle: '',
         introParagraph: '',
-        shareParagraph: ''
+        shareParagraph: '',
+        domain: ''
     };
 
     componentWillMount(){
@@ -56,7 +58,11 @@ class GeneralForm extends React.Component {
         <Layout.AnnotatedSection
             title="General Settings"
             description="Tell us more about your quiz."
-        >
+                >
+                    <DomainDisplay
+                        handleChange={this.handleChange}
+                        saveDomain={this.saveDomain}
+                        domain ={this.state.domain} />
             <Card sectioned>
             <FormLayout>
                 <TextField 
@@ -153,11 +159,15 @@ class GeneralForm extends React.Component {
 
     handleCollectEmailChange = (value) => {
         this.setState({collectEmailChecked: value});
-      };
+    };
 
     handleResultsChange = (checked, value) => {
         this.setState({resultsValue: value});
-      };
+    };
+    
+    saveDomain = (domain) => { 
+        this.setState({ domain })
+    }
 
     handleChange = (field) => {
         return (value) => {

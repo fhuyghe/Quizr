@@ -10,6 +10,7 @@ const settingsSchema = new Schema({
     required: true,
     dropDups: true
   },
+  domain: {type: String},
   accessToken: {type: String}, 
   introTitle: {type: String},
   introParagraph: {type: String},
