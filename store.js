@@ -24,6 +24,9 @@ const initialState = {
         questions: [],
         resultOptions: []
     },
+    stats: {
+      users: []
+    },
     answers: []
 }
 
@@ -78,6 +81,7 @@ export const reducer = (state = initialState, action) => {
         newState.isFetching = false
         newState.isLoaded = true
         newState.settings = action.settings
+        newState.stats = action.stats
         return newState
       
       case actionTypes.GET_COUPONS:
@@ -166,11 +170,12 @@ export const requestSettings = (shop) => {
         shop
     }
 }
-export const receiveSettings = (shop, settings) => {
+export const receiveSettings = (shop, data) => {
     return { 
         type: actionTypes.RECEIVE_SETTINGS,
         shop, 
-        settings
+        settings: data.settings,
+        stats: data.stats
     }
 }
 
@@ -688,49 +693,68 @@ export const createDiscountCodes = (couponsData, priceRule, qty) => {
   export function deleteCoupons(data) {
     return (dispatch, getState) => {
 
-      const {settings} = getState()
+      //const {settings} = getState()
       const couponsID = { _id: data._id }
       
-      var dataToSend = {
-        accessToken: settings.accessToken,
-        route: "price_rules/" + data.priceRule + ".json",
-        method: "DELETE"
-      }
+
+      return fetch( APP_URL + `/api/coupons/delete`,
+          {
+              method: 'PUT',
+              body: JSON.stringify(couponsID),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          })
+      .then(
+        response => response.json(),
+        // Do not use catch
+        error => console.log('An error occurred.', error)
+      )
+      .then(json => dispatch({ 
+        type: actionTypes.DELETE_COUPONS
+        })
+      )
+
+      // var dataToSend = {
+      //   accessToken: settings.accessToken,
+      //   route: "price_rules/" + data.priceRule + ".json",
+      //   method: "DELETE"
+      // }
   
-      return fetch( APP_URL + `/api/shopify`,
-            {
-                method: 'POST',
-                body: JSON.stringify(dataToSend),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        .then(
-          response => response.json(),
-          // Do not use catch
-          error => console.log('An error occurred.', error)
-        )
-        .then(json => {
-            console.log('Deleted in Shopify', json)
-            return fetch( APP_URL + `/api/coupons/delete`,
-              {
-                  method: 'PUT',
-                  body: JSON.stringify(couponsID),
-                  headers: {
-                      'Content-Type': 'application/json'
-                  }
-              })
-          .then(
-            response => response.json(),
-            // Do not use catch
-            error => console.log('An error occurred.', error)
-          )
-          .then(json => dispatch({ 
-            type: actionTypes.DELETE_COUPONS
-            })
-          )
-         }
-        )
+      // return fetch( APP_URL + `/api/shopify`,
+      //       {
+      //           method: 'POST',
+      //           body: JSON.stringify(dataToSend),
+      //           headers: {
+      //               'Content-Type': 'application/json'
+      //           }
+      //       })
+      //   .then(
+      //     response => response.json(),
+      //     // Do not use catch
+      //     error => console.log('An error occurred.', error)
+      //   )
+      //   .then(json => {
+      //       console.log('Deleted in Shopify', json)
+      //       return fetch( APP_URL + `/api/coupons/delete`,
+      //         {
+      //             method: 'PUT',
+      //             body: JSON.stringify(couponsID),
+      //             headers: {
+      //                 'Content-Type': 'application/json'
+      //             }
+      //         })
+      //     .then(
+      //       response => response.json(),
+      //       // Do not use catch
+      //       error => console.log('An error occurred.', error)
+      //     )
+      //     .then(json => dispatch({ 
+      //       type: actionTypes.DELETE_COUPONS
+      //       })
+      //     )
+      //    }
+      //   )
     }
   }
 

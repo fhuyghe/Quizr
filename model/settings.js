@@ -41,7 +41,7 @@ const settingsSchema = new Schema({
   intro: {type: String}
 });
 
-// Collected Emails
+// Collected info
 const statsSchema = new Schema({
   shop: {
     type: String,
@@ -51,6 +51,17 @@ const statsSchema = new Schema({
   },
   emails: [{
     type: String
+  }],
+  users: [{
+    email: String,
+    quizAnswers: [{
+      question: String,
+      answers: [String]
+    }],
+    date: {
+      type: Date,
+      default: Date.now
+    }
   }]
 });
 

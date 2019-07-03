@@ -1,10 +1,11 @@
 require('isomorphic-fetch');
 import { connect } from 'react-redux'
 import { getSettings } from '../store'
-import { Loading } from '@shopify/polaris';
+import { Loading } from '@shopify/polaris'
+import Stats from '../components/Stats'
 
 
-class Stats extends React.Component {
+class StatsPage extends React.Component {
 
     static async getInitialProps (ctx) {
         return {
@@ -19,7 +20,7 @@ class Stats extends React.Component {
     render() {
         return <div>
             {this.props.isLoaded
-                ? <h1>Stats</h1>
+                ? <Stats stats={this.props.stats} settings={this.props.settings}/>
                 : <Loading />
             }
       </div>
@@ -30,11 +31,12 @@ class Stats extends React.Component {
 const mapStateToProps = (state) => {
     return {
         isLoaded: state.isLoaded,
-        settings: state.settings
+        settings: state.settings,
+        stats: state.stats
     }
 }
 const mapDispatchToProps = { getSettings }
 
-const connectedStats = connect(mapStateToProps, mapDispatchToProps)(Stats)
+const connectedStats = connect(mapStateToProps, mapDispatchToProps)(StatsPage)
 
 export default connectedStats;

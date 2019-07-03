@@ -1,4 +1,4 @@
-const {Settings, ResultOption, Question} = require('../model/settings')
+const {Settings, ResultOption, Question, Stats} = require('../model/settings')
 
 class SettingsControllers {
 
@@ -9,8 +9,8 @@ class SettingsControllers {
             const {shop} = ctx.params
 
             if (shop) {
-                const data = await Settings
-                .findOne({ shop: shop })
+                await Settings
+                .findOne({ shop })
                 .populate('resultOptions')
                 .populate({
                     path: 'questions',
@@ -25,8 +25,18 @@ class SettingsControllers {
                     path: 'answers.positive',
                     model: 'ResultOption'
                     }
+                }).then( async settings => { 
+
+                    console.log('Found settings', settings)
+                    await Stats
+                    .findOne({ shop }).then(stats => { 
+                        console.log('Found stats', stats)
+                        ctx.body = {
+                            settings,
+                            stats
+                        }
+                    })
                 })
-                ctx.body = await data ? data : {shop: shop}
             } else {
                 ctx.body = {shop: null}
             }
