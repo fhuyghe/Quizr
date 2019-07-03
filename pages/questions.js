@@ -3,7 +3,6 @@ import QuestionsList from '../components/QuestionsList'
 import { connect } from 'react-redux'
 import { getSettings, lowerQuestion, higherQuestion } from '../store'
 import { Loading } from '@shopify/polaris';
-import '../style/adminStyle.scss'
 
 class Questions extends React.Component {
 

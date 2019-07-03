@@ -11,6 +11,8 @@ import { ApolloProvider } from 'react-apollo';
 import { Provider } from 'react-redux'
 import withReduxStore from '../lib/with-redux-store'
 import AppMenu from '../components/AppMenu'
+//Style
+import '../style/adminStyle.scss'
 
 global.fetch = require('node-fetch');
 

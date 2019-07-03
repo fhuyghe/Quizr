@@ -18,7 +18,7 @@ class StatsPage extends React.Component {
     }
 
     render() {
-        return <div>
+        return <div className="stats">
             {this.props.isLoaded
                 ? <Stats stats={this.props.stats} settings={this.props.settings}/>
                 : <Loading />

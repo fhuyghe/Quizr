@@ -23,22 +23,28 @@ class Stats extends React.Component {
 
     render() {
 
-        const { stats, settings } = this.props
+        const stats = this.props.stats || {users: []}
+        const settings = this.props.settings || {}
 
         const emails = [['Email']]
+        stats.users.map(user => { 
+            if (user.email) {
+                emails.push([user.email])   
+            }
+        })
+
         const emailsDisplay = (user) => {
             if (user.email) {
-                emails.push([user.email])
                 return <ResourceList.Item
                 id={user._id}
                 accessibilityLabel={`View details for ${user.email}`}
                 >
-                    <h3><TextStyle variation="strong">{user.email}</TextStyle></h3>
+                    <p><TextStyle variation="strong">{user.email}</TextStyle></p>
                 </ResourceList.Item>
             }
         }
 
-        const emailPercentage = stats && emails.length / stats.users.length * 100
+        const emailPercentage = stats.users && (emails.length - 1) / stats.users.length * 100
 
         const questionsStats = settings && settings.questions.map(question => {
             let questionAnswers = []
@@ -88,12 +94,13 @@ class Stats extends React.Component {
         })
 
     return (
-        <Page title="Settings" >
+        <Page title="Stats" >
             <Layout>
                 <Layout.AnnotatedSection title="General Stats" >
                     <Card sectioned>
                         <p>The quiz was completed {this.props.stats ? this.props.stats.users.length : 0 } times.</p>        
-                        <p>{ Math.round(emailPercentage) }% of people have left their email address.</p>
+                        <p>{Math.round(emailPercentage)}% of people have left their email address.</p>
+                        <p>You collected {emails.length - 1} email addresses.</p>
                     </Card>
                 </Layout.AnnotatedSection>
 
@@ -102,13 +109,14 @@ class Stats extends React.Component {
                         <CSVLink
                             data={emails}
                             target="_blank"
-                            filename={settings.shop + '-quiz-users'}>
+                            filename={settings && settings.shop + '-quiz-users.csv'}>
                             <Button >Download Emails</Button>
                         </CSVLink>
                         <ResourceList
                             resourceName={{ singular: 'customer', plural: 'customers' }}
                             items={stats.users}
                             renderItem={emailsDisplay}
+                            hasMoreItems={true}
   />
                     </Card>
                 </Layout.AnnotatedSection>
