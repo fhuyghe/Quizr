@@ -38,7 +38,15 @@ const settingsSchema = new Schema({
   resultEmailName: {type: String},
   resultEmailTitle: {type: String},
   title: {type: String},
-  intro: {type: String}
+  intro: { type: String },
+  // Tradeshow settings
+  introTitleTradeshow: String,
+  introParagraphTradeshow: String,
+  shareParagraphTradeshow: String,
+  resultEmailTitleTradeshow: String,
+  resultsTitleTradeshow: String,
+  resultsParagraphTradeshow: String,
+  resultsTextAfterTradeshow: String
 });
 
 // Collected info
@@ -54,10 +62,21 @@ const statsSchema = new Schema({
   }],
   users: [{
     email: String,
-    quizAnswers: [{
-      question: String,
-      answers: [String]
-    }],
+    firstName: String,
+    lastName: String,
+    company: String,
+    phone: String,
+    address1: String,
+    address2: String,
+    city: String,
+    state: String,
+    zipcode: String,
+    quizAnswers: [
+      {
+        question: String,
+        answers: [String]
+      }
+    ],
     date: {
       type: Date,
       default: Date.now

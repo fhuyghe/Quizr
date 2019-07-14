@@ -9,3 +9,4 @@ module.exports = routes()                           // ----   ----      -----
     .add('option', '/options/:slug')
     .add('preview', '/preview')
     .add('coupons', '/coupons')
+    .add('tradeshow', '/tradeshow')
