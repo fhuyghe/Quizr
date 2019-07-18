@@ -40,6 +40,8 @@ const settingsSchema = new Schema({
   title: {type: String},
   intro: { type: String },
   // Tradeshow settings
+  introTradeshow: String,
+  titleTradeshow: String,
   introTitleTradeshow: String,
   introParagraphTradeshow: String,
   shareParagraphTradeshow: String,

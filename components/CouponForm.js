@@ -10,7 +10,8 @@ import { Layout,
     TextStyle,
     TextContainer,
     Banner,
-    Spinner
+    Spinner,
+    Checkbox
 } from '@shopify/polaris';
 
 
@@ -18,6 +19,7 @@ class CouponForm extends React.Component {
 
     state = {
         discountPaused: false,
+        discountPausedTradeshow: false,
         month: 1,
         year: new Date().getFullYear(),
         discountType: 'dollars',
@@ -41,6 +43,7 @@ class CouponForm extends React.Component {
 
         const {
             discountPaused,
+            discountPausedTradeshow,
             discountType,
             discountAmount,
             discountEndType,
@@ -77,11 +80,11 @@ class CouponForm extends React.Component {
                 >
                     {discountCreated &&
                         <Banner
-                        title={discountPaused ? "Discount campaign paused" : "Discount campaign active"}
-                            status={discountPaused ? "warning" : "success"}
+                        title={discountPaused && discountPausedTradeshow ? "Discount campaign paused" : "Discount campaign active"}
+                            status={discountPaused && discountPausedTradeshow ? "warning" : "success"}
                     >
                         <TextContainer>
-                        {discountPaused
+                        {discountPaused && discountPausedTradeshow
                             ? <p>Resume your campaign below to continue sending discounts to your customers.</p>
                             : <p>Your customers are now receiving a coupon in the result email.</p>
                             }
@@ -149,7 +152,31 @@ class CouponForm extends React.Component {
                             />
                         </FormLayout>
                     </Card>
-                    </Layout.AnnotatedSection>
+                </Layout.AnnotatedSection>
+
+                <Layout.AnnotatedSection
+                    title="Locations"
+                    description=""
+                >
+                    <Card sectioned>
+                
+                        <Checkbox
+                    checked={!discountPaused}
+                    label="Customer Quiz"
+                    onChange={this.handlePauseChange('discountPaused')}
+                                /><br />
+                            
+                        <Checkbox
+                    checked={!discountPausedTradeshow}
+                    label="Trade Show Quiz"
+                    onChange={this.handlePauseChange('discountPausedTradeshow')}
+                        />
+
+                    {isPausing && <Spinner size="small" color="teal" /> }
+                        
+                     </Card>
+                </Layout.AnnotatedSection>
+            
                     <Layout.AnnotatedSection
                     title="Campaign Settings"
                     description=""
@@ -157,7 +184,6 @@ class CouponForm extends React.Component {
                     <Card sectioned>
                         <ButtonGroup>
                             {!discountCreated && <Button primary onClick={this.save}>{isSaving ? <Spinner size="small" color="teal" /> : "Create Campaign"}</Button>}
-                            {discountCreated && <Button primary onClick={this.pauseToggle}>{isPausing ? <Spinner size="small" color="teal" /> : discountPaused ? 'Resume' : 'Pause'}</Button>}
                             {discountCreated && <Button destructive onClick={this.delete}>Delete</Button>}
                             {discountCreated && 
                                 <TextContainer>
@@ -184,13 +210,16 @@ class CouponForm extends React.Component {
             )
         }
     }
+    
+    handlePauseChange = (field) => {
+        return (value) => {
+            this.setState({ [field]: !value })
+            this.props.pause(field)
+        }
+    }
 
     save = () => {
         this.props.save(this.state)
-    }
-
-    pauseToggle = () => { 
-        this.props.pause()
     }
 
     delete = () => { 

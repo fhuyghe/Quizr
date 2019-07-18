@@ -11,6 +11,8 @@ class TradeshowForm extends React.Component {
     state = { 
         resultsValue: 'options',
         collectEmailChecked: true,
+        introTradeshow: '',
+        titleTradeshow: '',
         resultsTitleTradeshow: '',
         resultsParagraphTradeshow: '',
         resultsTextAfterTradeshow: '',
@@ -30,6 +32,8 @@ class TradeshowForm extends React.Component {
     render() {
 
         const {
+            introTradeshow,
+            titleTradeshow,
             resultsTitleTradeshow,
             resultsParagraphTradeshow,
             resultsTextAfterTradeshow,
@@ -46,7 +50,25 @@ class TradeshowForm extends React.Component {
             content: 'Save',
             onAction: () => this.props.save(this.state),
     }}>
-    <Layout>
+        <Layout>
+            <Layout.AnnotatedSection
+            title="General Settings"
+            description="Tell us more about your quiz."
+                >
+            <Card sectioned>
+            <FormLayout>
+                <TextField 
+                    label="Title"
+                    value={titleTradeshow}
+                    onChange={this.handleChange('titleTradeshow')} />
+                <TextField 
+                    label="Intro" 
+                    value={introTradeshow}
+                    multiline 
+                    onChange={this.handleChange('introTradeshow')} />
+            </FormLayout>
+            </Card>
+        </Layout.AnnotatedSection>
 
         <Layout.AnnotatedSection
             title="First Slide"

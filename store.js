@@ -649,10 +649,10 @@ export const createDiscountCodes = (couponsData, priceRule, qty) => {
   }
   
 
-  export function pauseCoupons() {
+  export function pauseCoupons(pauseType) {
     return (dispatch, getState) => {
       const { coupons } = getState()
-      coupons.discountPaused = !coupons.discountPaused
+      coupons[pauseType] = !coupons[pauseType]
       
       console.log('Pausing')
       dispatch(tryPausingCoupons())

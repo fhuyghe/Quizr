@@ -10,6 +10,7 @@ const couponsSchema = new Schema({
     },
     discountCreated: { type: Boolean },
     discountPaused: { type: Boolean },
+    discountPausedTradeshow: { type: Boolean },
     discountType: { type: String },
     discountAmount: { type: Number, min: 0, max: 999 },
     discountEndType: {type: String },
