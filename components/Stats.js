@@ -32,7 +32,29 @@ class Stats extends React.Component {
                 emails.push([user.email])   
             }
         })
+        
 
+        //Trade Show info
+        const tradeshowUsers = stats.users.filter(user => user.firstName)
+
+        const tradeshowFullInfo = [['Email', 'First Name', 'Last Name', 'Company', 'Phone Number', 'Address 1', 'Address 2', 'City', 'State', 'Zip Code', 'Notes']]
+        tradeshowUsers.map(user => { 
+            tradeshowFullInfo.push([
+                user.email,
+                user.firstName,
+                user.lastName,
+                user.company,
+                user.phone,
+                user.address1,
+                user.address2,
+                user.city,
+                user.state,
+                user.zipcode,
+                user.notes
+            ])   
+        })
+
+        //Email display for resource list
         const emailsDisplay = (user) => {
             if (user.email) {
                 return <ResourceList.Item
@@ -115,6 +137,23 @@ class Stats extends React.Component {
                         <ResourceList
                             resourceName={{ singular: 'customer', plural: 'customers' }}
                             items={stats.users}
+                            renderItem={emailsDisplay}
+                            hasMoreItems={true}
+  />
+                    </Card>
+                </Layout.AnnotatedSection>
+
+                <Layout.AnnotatedSection title="Trade Show Prospects" >
+                    <Card sectioned>
+                        <CSVLink
+                            data={tradeshowFullInfo}
+                            target="_blank"
+                            filename={settings && settings.shop + '-quiz-wholesalers.csv'}>
+                            <Button >Download Info</Button>
+                        </CSVLink>
+                        <ResourceList
+                            resourceName={{ singular: 'wholesaler', plural: 'wholesalers' }}
+                            items={tradeshowUsers}
                             renderItem={emailsDisplay}
                             hasMoreItems={true}
   />

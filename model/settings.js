@@ -73,6 +73,7 @@ const statsSchema = new Schema({
     city: String,
     state: String,
     zipcode: String,
+    notes: String,
     quizAnswers: [
       {
         question: String,
