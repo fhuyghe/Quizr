@@ -6,17 +6,17 @@
   }
 
   .quizrWrap iframe{
-	  width: 100%;
+    width: 1px;
+	  min-width: 100%;
     border: 0;
-    min-height: 100%;
   }
 {% endstyle %}
 {{ 'iframeResizer.min.js' | asset_url | script_tag }}
 
 <div class="quizrWrap">
-	<iframe class="quizr" src="https://quizr.13milliseconds.com/{{ shop.permanent_domain | remove: '.myshopify.com' }}" frameborder="0" onload="resizeIframe(this)"></iframe>
+	<iframe id="quizIframe" class="quizr" src="https://quizr.13milliseconds.com/{{ shop.permanent_domain | remove: '.myshopify.com' }}" frameborder="0" onload="resizeIframe(this)"></iframe>
 </div>
-<script>iFrameResize({log:false})</script>
+<script>iFrameResize({log:false}, '#quizIframe')</script>
 
 <script>
   var containerHeight = window.innerHeight - $('#shopify-section-header').height()
