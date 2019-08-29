@@ -25,15 +25,7 @@ class Stats extends React.Component {
 
         const stats = this.props.stats || {users: []}
         const settings = this.props.settings || {}
-
-        const emails = [['Email']]
-        stats.users.map(user => { 
-            if (user.email) {
-                emails.push([user.email])   
-            }
-        })
         
-
         //Trade Show info
         const tradeshowUsers = stats.users.filter(user => user.firstName)
 
@@ -55,6 +47,15 @@ class Stats extends React.Component {
         })
 
         //Email display for resource list
+        const customers = stats.users.filter(user => !user.firstName)
+
+        const emails = [['Email']]
+        customers.map(user => {
+            if (user.email) {
+                emails.push([user.email])   
+            }
+        })
+
         const emailsDisplay = (user) => {
             if (user.email) {
                 return <ResourceList.Item
@@ -136,7 +137,7 @@ class Stats extends React.Component {
                         </CSVLink>
                         <ResourceList
                             resourceName={{ singular: 'customer', plural: 'customers' }}
-                            items={stats.users}
+                            items={customers}
                             renderItem={emailsDisplay}
                             hasMoreItems={true}
   />

@@ -24,11 +24,6 @@ class AppContainer extends React.Component {
           icon: 'help',
           },
           {
-            onClick: () => Router.pushRoute('/coupons'),
-            label: 'Coupons',
-            icon: 'notes',
-          },
-          {
             onClick: () => Router.pushRoute('/tradeshow'),
             label: 'Tradeshow',
             icon: 'notes',

@@ -20,7 +20,7 @@ class Index extends React.Component {
     render() {
         return <div>
             {this.props.isLoaded
-                ? <GeneralForm {...this.props.settings} save={this.save}/>
+                ? <GeneralForm {...this.props.settings} save={this.save} isSaving={this.props.isSaving}/>
                 : <Loading />
             }
       </div>
@@ -33,6 +33,7 @@ class Index extends React.Component {
 const mapStateToProps = (state) => {
     return {
         isLoaded: state.isLoaded,
+        isSaving: state.isSaving,
         settings: state.settings
     }
 }

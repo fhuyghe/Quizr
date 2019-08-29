@@ -22,7 +22,9 @@ const initialState = {
         introTitle: '',
         introParagraph: '',
         questions: [],
-        resultOptions: []
+        resultOptions: [],
+        couponGeneral: false,
+        couponTradeshow: false
     },
     stats: {
       users: []
@@ -83,6 +85,15 @@ export const reducer = (state = initialState, action) => {
         newState.settings = action.settings
         newState.stats = action.stats
         return newState
+      
+      case actionTypes.TRY_SAVING_SETTINGS:
+          newState.isSaving = action.isSaving
+          return newState
+      
+      case actionTypes.SUCCESS_SAVING_SETTINGS:
+          newState.isSaving = action.isSaving
+          newState.settings = action.settings
+          return newState
       
       case actionTypes.GET_COUPONS:
         newState.shop = action.shop
@@ -241,7 +252,7 @@ export function getSettings(shop) {
           // Do not use catch
           error => console.log('An error occurred.', error)
         )
-        .then(json => dispatch(successSavingSettings(shop, json))
+        .then(json => dispatch(successSavingSettings(data))
         )
     }
   }

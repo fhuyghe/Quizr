@@ -34,9 +34,8 @@ const settingsSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Question'
   }],
-  resultEmail: {type: String},
-  resultEmailName: {type: String},
-  resultEmailTitle: {type: String},
+  couponGeneral: { type: Boolean },
+  couponTradeshow: { type: Boolean },
   title: {type: String},
   intro: { type: String },
   // Tradeshow settings

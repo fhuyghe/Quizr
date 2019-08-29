@@ -12,14 +12,15 @@ class GeneralForm extends React.Component {
 
     state = { 
         resultsValue: 'options',
-        collectEmailChecked: true,
         resultsTitle: '',
         resultsParagraph: '',
         resultsTextAfter: '',
         introTitle: '',
         introParagraph: '',
         shareParagraph: '',
-        domain: ''
+        domain: '',
+        couponGeneral: false,
+        couponTradeshow: false
     };
 
     componentWillMount(){
@@ -33,7 +34,6 @@ class GeneralForm extends React.Component {
     render() {
 
         const {
-            collectEmailChecked,
             resultsTitle,
             resultsParagraph,
             resultsTextAfter,
@@ -42,16 +42,15 @@ class GeneralForm extends React.Component {
             shareParagraph,
             title, 
             intro,
-            resultEmail,
-            resultEmailName,
-            resultEmailTitle
+            couponGeneral,
+            couponTradeshow
         } = this.state;
 
     return (
     <Page
         title="Settings"
         primaryAction={{
-            content: 'Save',
+            content: this.props.isSaving ? 'Saving...' : 'Save',
             onAction: () => this.props.save(this.state),
     }}>
     <Layout>
@@ -103,29 +102,21 @@ class GeneralForm extends React.Component {
         >
             <Card sectioned>
             <FormLayout>
-                <Checkbox
-                    checked={collectEmailChecked}
-                    label="Collect emails at the end of the quiz"
-                    onChange={this.handleCollectEmailChange}
-                />
                 <TextField 
                     label="Text"
                     value={shareParagraph}
                     multiline 
-                    onChange={this.handleChange('shareParagraph')} />
-                <TextField 
-                    label="Sender's Email"
-                    value={resultEmail} 
-                    type="email"
-                                onChange={this.handleChange('resultEmail')} />
-                <TextField 
-                    label="Sender's Name"
-                    value={resultEmailName} 
-                    onChange={this.handleChange('resultEmailName')} />
-                <TextField 
-                    label="Email Title"
-                    value={resultEmailTitle}
-                    onChange={this.handleChange('resultEmailTitle')} />
+                                onChange={this.handleChange('shareParagraph')} />
+                <Checkbox
+                    label="Coupons on general quiz"
+                    checked={couponGeneral}
+                    onChange={this.handleCheckChange('couponGeneral')}
+                            />
+                <Checkbox
+                    label="Coupons on trade show quiz"
+                    checked={couponTradeshow}
+                    onChange={this.handleCheckChange('couponTradeshow')}
+                    />
             </FormLayout>
             </Card>
         </Layout.AnnotatedSection>
@@ -157,10 +148,6 @@ class GeneralForm extends React.Component {
     </Page>
   )};
 
-    handleCollectEmailChange = (value) => {
-        this.setState({collectEmailChecked: value});
-    };
-
     handleResultsChange = (checked, value) => {
         this.setState({resultsValue: value});
     };
@@ -168,6 +155,13 @@ class GeneralForm extends React.Component {
     saveDomain = (domain) => { 
         this.setState({ domain })
     }
+
+    handleCheckChange = (field) => {
+        return (value) => {
+            this.setState({ [field]: value }
+            )
+        };
+      };
 
     handleChange = (field) => {
         return (value) => {
