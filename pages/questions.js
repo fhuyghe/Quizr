@@ -10,7 +10,7 @@ class Questions extends React.Component {
     return {query}
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.props.getSettings(this.props.query.shop)
   }
 

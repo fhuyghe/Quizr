@@ -45,7 +45,7 @@ import {
             
             return (
             <Card sectioned>
-            <div className="productBlock">
+            {product && <div className="productBlock">
               <div className="productImage">
                 <img
                   src={
@@ -65,7 +65,7 @@ import {
                 <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
                 <a className="btn" href={product.url}>Shop Now</a>
                 </div>
-                </div>
+                </div>}
             </Card>
             );
         }}

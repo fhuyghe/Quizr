@@ -1,6 +1,7 @@
 import App from 'next/app';
 import Head from 'next/head';
 import { AppProvider } from '@shopify/polaris';
+import translations from '@shopify/polaris/locales/en.json';
 import '@shopify/polaris/styles.css';
 import Cookies from 'js-cookie'
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -8,7 +9,7 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { ApolloProvider } from 'react-apollo';
 //Redux
-import { Provider } from 'react-redux'
+import {Provider as ReduxProvider} from 'react-redux'
 import withReduxStore from '../lib/with-redux-store'
 import AppMenu from '../components/AppMenu'
 //Style
@@ -44,13 +45,14 @@ class QuizrApp extends App {
         <AppProvider 
           shopOrigin={this.state.shopOrigin} 
           apiKey={API_KEY} 
+          i18n={translations}
           forceRedirect >
           <ApolloProvider client={client}>
-            <Provider store={reduxStore}>
+            <ReduxProvider store={reduxStore}>
               <AppMenu>
                 <Component {...pageProps} />
               </AppMenu>
-            </Provider>
+            </ReduxProvider>
           </ApolloProvider>
         </AppProvider>
         </React.Fragment>

@@ -13,7 +13,7 @@ class StatsPage extends React.Component {
         }
       }
 
-    componentWillMount(){
+    componentDidMount(){
         this.props.getSettings(this.props.query.shop)
     }
 

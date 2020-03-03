@@ -12,12 +12,12 @@ import {CSVLink} from 'react-csv';
 
 
 class Stats extends React.Component {
-
-    componentWillMount(){
-        this.setState({...this.props})
+    constructor(props) { 
+        super(props)
+        this.state = {...props}
     }
 
-    componentWillReceiveProps(nextProps){
+    componentDidUpdate(nextProps){
         if (nextProps !== this.props ) this.setState({...nextProps})
     }
 

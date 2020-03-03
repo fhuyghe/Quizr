@@ -1,4 +1,12 @@
 import { Navigation, Frame } from '@shopify/polaris';
+import {
+  DuplicateMinor,
+  HomeMajorMonotone,
+  QuestionMarkMajorTwotone,
+  NoteMinor,
+  ViewMinor,
+  SearchMinor
+} from '@shopify/polaris-icons';
 import {Router} from '../routes'
   
 class AppContainer extends React.Component {
@@ -11,22 +19,22 @@ class AppContainer extends React.Component {
         {
           onClick: () => Router.pushRoute('/index'),
           label: 'General',
-          icon: 'home',
+          icon: HomeMajorMonotone,
         },
         {
           onClick: () => Router.pushRoute('/options'),
           label: 'Options',
-          icon: 'duplicate',
+          icon: DuplicateMinor,
         },
         {
           onClick: () => Router.pushRoute('/questions'),
           label: 'Questions',
-          icon: 'help',
+          icon: QuestionMarkMajorTwotone,
           },
           {
             onClick: () => Router.pushRoute('/tradeshow'),
             label: 'Tradeshow',
-            icon: 'notes',
+            icon: NoteMinor,
           }
       ]}
       />
@@ -35,7 +43,7 @@ class AppContainer extends React.Component {
         {
           onClick: () => Router.pushRoute('/preview'),
           label: 'Preview',
-          icon: 'view',
+          icon: ViewMinor,
         },
       ]}
       separator
@@ -45,7 +53,7 @@ class AppContainer extends React.Component {
         {
           onClick: () => Router.pushRoute('/stats'),
           label: 'Stats',
-          icon: 'search',
+          icon: SearchMinor,
         },
       ]}
       separator

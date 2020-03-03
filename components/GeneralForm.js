@@ -9,6 +9,10 @@ import DomainDisplay from './DomainDisplay'
 
 
 class GeneralForm extends React.Component {
+    constructor(props) { 
+        super(props)
+        this.state = {...props}
+    }
 
     state = { 
         resultsValue: 'options',
@@ -23,11 +27,7 @@ class GeneralForm extends React.Component {
         couponTradeshow: false
     };
 
-    componentWillMount(){
-        this.setState({...this.props})
-    }
-
-    componentWillReceiveProps(nextProps){
+    componentDidUpdate(nextProps){
         if (nextProps !== this.props ) this.setState({...nextProps})
     }
 
@@ -133,7 +133,7 @@ class GeneralForm extends React.Component {
                     onChange={this.handleChange('resultsTitle')} />
                 <TextField 
                     label="Paragraph" 
-                    value={resultsParagraph.replace(/<br\s*[\/]?>/gi, '\n')}
+                    value={resultsParagraph && resultsParagraph.replace(/<br\s*[\/]?>/gi, '\n')}
                     multiline 
                     onChange={this.handleChange('resultsParagraph')} />
                 <TextField 

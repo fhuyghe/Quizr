@@ -7,6 +7,10 @@ import { Layout,
 
 
 class TradeshowForm extends React.Component {
+    constructor(props) { 
+        super(props)
+        this.state = {...props}
+    }
 
     state = { 
         resultsValue: 'options',
@@ -21,11 +25,7 @@ class TradeshowForm extends React.Component {
         shareParagraphTradeshow: ''
     };
 
-    componentWillMount(){
-        this.setState({...this.props})
-    }
-
-    componentWillReceiveProps(nextProps){
+    componentDidUpdate(nextProps){
         if (nextProps !== this.props ) this.setState({...nextProps})
     }
 

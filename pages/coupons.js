@@ -12,7 +12,7 @@ class Coupons extends React.Component {
         }
       }
 
-    componentWillMount() {
+      componentDidMount() {
         let shop = this.props.settings.shop || this.props.query.shop
         this.props.getCoupons(shop)
     }

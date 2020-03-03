@@ -16,6 +16,10 @@ import { Layout,
 
 
 class CouponForm extends React.Component {
+    constructor(props) { 
+        super(props)
+        this.state = {...props}
+    }
 
     state = {
         discountPaused: false,
@@ -31,11 +35,7 @@ class CouponForm extends React.Component {
         discountParagraph: ''
     };
 
-    componentWillMount(){
-        this.setState({...this.props})
-    }
-
-    componentWillReceiveProps(nextProps){
+    componentDidUpdate(nextProps){
         if (nextProps !== this.props ) this.setState({...nextProps})
     }
 
