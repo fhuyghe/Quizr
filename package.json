@@ -30,7 +30,7 @@
     "babel-polyfill": "^6.26.0",
     "bluebird": "^3.7.2",
     "caniuse-lite": "^1.0.30001031",
-    "cross-fetch": "^3.0.4",
+    "cross-fetch": "^3.0.6",
     "dotenv": "^6.2.0",
     "graphql": "^14.6.0",
     "isomorphic-fetch": "^2.2.1",
