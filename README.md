@@ -1,6 +1,8 @@
 # Quizr
 **A simple quiz app for Shopify websites**
 
+![Screenshot](https://i.imgur.com/q8BmeJy.png)
+
 ## Functionalities
 Quizr lets you create a quiz for your store. Create questions, answer options (multiple choice or slider) and create a set of rules to show a customized enswer featuring your products. Optional functionalities include creating a custom promo code and capturing the quiz takers email.
 
